@@ -1,0 +1,34 @@
+#!/bin/bash
+
+usage() {
+    local name
+    name=$(basename $0)
+    echo "usage: $name [on|off]" >&2
+    echo "Toggle or turn on/off the trackpad." >&2
+    exit 1
+}
+
+die() {
+    test "$1" == "" || echo "$1" >&2
+    exit 1
+}
+
+test "$2" == "" || usage
+echo "$1" | egrep -q "^(on|off|)$" || usage
+
+xid=$(xinput | grep bcm5974 | sed -r 's/.*\sid=([0-9]+)\s.*/\1/g')
+test "$xid" == "" && die "No bcm5974 trackpad found."
+
+status="$1"
+if [ "$status" == "" ]; then
+    enabled=$(xinput list-props "$xid" | grep 'Device Enabled' | sed -r 's/.*\s([0-9]+)$/\1/g')
+    test $enabled -eq 0 && status=on || status=off
+fi
+
+if [ "$status" == "on" ]; then
+    xinput enable "$xid"
+    echo "Trackpad $xid enabled."
+elif [ "$status" == "off" ]; then
+    xinput disable "$xid"
+    echo "Trackpad $xid disabled"
+fi

@@ -1,0 +1,254 @@
+#!/bin/env python3
+
+import os
+import sys
+import json
+import subprocess
+from gi.repository import Gio
+
+
+class ScalerError(Exception):
+    """An error to raise on scaling error."""
+
+    def __init__(self, message, cause=None):
+        """
+        Initialize the exception.
+
+        @param message The exception message.
+        @param cause The cause of the exception.
+        """
+        Exception.__init__(self, message, cause)
+        self.message = message
+        self.cause = cause
+
+    def __str__(self):
+        """
+        Return the exception message.
+
+        @return The exception message.
+        """
+        return self.message
+
+
+class Scaler(object):
+    """Base scaler class."""
+
+    def __init__(self, small, large):
+        """
+        Initialize the scaler.
+
+        @param small The scaling factor for a small interface.
+        @param large The scaling factor for a large interface.
+        """
+        self.small_factor = small
+        self.large_factor = large
+
+    def is_small(self):
+        """
+        Check if the interface is small. Calculated by comparing the current
+        factor to the average of the small and large factors.
+
+        @return True if the interface is small or False.
+        """
+        avg = float(self.small_factor + self.large_factor) / 2.0
+        return self.get() < avg
+
+    def small(self):
+        """Set scaling to small."""
+        self.set(self.small_factor)
+
+    def large(self):
+        """Set scaling to large."""
+        self.set(self.large_factor)
+
+    def toggle(self):
+        """
+        Toggle scaling between small and large. If the current scaling factor
+        is set to neither the small nor large value then the scaler will
+        attempt to guess which to switch to.
+
+        @return The new scaling factor.
+        """
+        if self.is_small():
+            self.large()
+            return self.large_factor
+        else:
+            self.small()
+            return self.small_factor
+
+
+class GnomeScaler(Scaler):
+    """Adjust Gnome text scaling."""
+
+    def __init__(self, small=1.3, large=1.5):
+        """
+        Initializes Gnome settings object and scaling factors.
+
+        @param small The scaling factor for a small interface.
+        @param large The scaling factor for a large interface.
+        """
+        super(GnomeScaler, self).__init__(small, large)
+        self.settings = Gio.Settings.new('org.gnome.desktop.interface')
+
+    def get(self):
+        """Get the Gnome text scaling factor."""
+        return self.settings.get_double('text-scaling-factor')
+
+    def set(self, size):
+        """Set the Gnome text scaling factor."""
+        self.settings.set_double('text-scaling-factor', size)
+
+
+class ChromeScaler(Scaler):
+    """Adjust Google Chrome zoom level."""
+
+    default_preferences = '.config/google-chrome/Default/Preferences'
+
+    def __init__(self, small=0.0, large=3.069389038663465, preferences=None,
+                 hostzoom=None):
+        """
+        Initializes preferences and scaling factors.
+
+        @param small The scaling factor for a small interface.
+        @param large The scaling factor for a large interface.
+        @param preferences The path to the Chrome preferences file.
+        @param hostzoom Always set this zoom for these hosts.
+        """
+        super(ChromeScaler, self).__init__(small, large)
+        if preferences is None:
+            preferences = self.default_preferences
+        if preferences[0] != '/':
+            preferences = '%s/%s' % (os.getenv("HOME"), preferences)
+        if hostzoom is None:
+            hostzoom = {}
+
+        self.preferences = preferences
+        self.hostzoom = hostzoom
+
+    @classmethod
+    def is_running(cls):
+        """
+        Check if Chrome is running.
+
+        @return True if Chrome is running or False.
+        """
+        cmd = "ps ax | awk '{print $5}' | grep -q '/chrome$'"
+        return subprocess.call(cmd, shell=True) == 0
+
+    def load(self):
+        """
+        Load the Chrome preferences.
+
+        @return The Chrome preferences object.
+        """
+        try:
+            return json.load(open(self.preferences, 'r'))
+        except IOError as e:
+            raise ScalerError("Unable to open preferences for reading.", e)
+
+    def save(self, preferences):
+        """
+        Save the Chrome preferences.
+
+        @param preferences The Chrome preferences object to save.
+        """
+        if self.is_running():
+            #TODO: Restart Chrome to update preferences.
+            raise ScalerError(
+                "Chrome is running, unable to write preferences.")
+        try:
+            json.dump(preferences, open(self.preferences, 'w'), indent=4)
+        except IOError as e:
+            raise ScalerError("Unable to open preferences for writing.", e)
+
+    def get(self):
+        """
+        Get the scaling factor.
+
+        @return The current scaling factor.
+        """
+        preferences = self.load()
+        return preferences['profile']['default_zoom_level']
+
+    def set(self, scale):
+        """
+        Set the scaling factor.
+
+        @param scale The new scaling factor.
+        """
+        preferences = self.load()
+        preferences['profile']['default_zoom_level'] = scale
+        preferences['profile']['per_host_zoom_levels'] = self.hostzoom
+        self.save(preferences)
+
+
+class Scalers(object):
+    """Scale the UI."""
+
+    def __init__(self, hosts=None):
+        """
+        Initialize the scalers.
+
+        @param hosts A dict of hostnames with zoom values to set in Chrome.
+        """
+        self.scalers = [
+            ChromeScaler(hostzoom=hosts),
+            GnomeScaler(),
+        ]
+        self.key_scaler = self.scalers[0]
+
+    def small(self):
+        """Set all scalers to small."""
+        for scaler in self.scalers:
+            try:
+                scaler.small()
+            except Exception as e:
+                sys.stderr.write("Error in %s: %s\n" % (
+                    scaler.__class__.__name__, e))
+
+    def large(self):
+        """Set all scalers to large."""
+        for scaler in self.scalers:
+            try:
+                scaler.large()
+            except Exception as e:
+                sys.stderr.write("Error in %s: %s\n" % (
+                    scaler.__class__.__name__, e))
+
+    def toggle(self):
+        """Toggle all scalers between small and large."""
+        if self.key_scaler.is_small():
+            self.large()
+        else:
+            self.small()
+
+
+def scale(hosts, size=None):
+    """
+    Scale the interface.
+
+    @param hosts A dict of hosts to scale a particular way in Chrome.
+    @param size The size to scale to. Either 'small' or 'large'. Otherwise will
+        toggle the scale between the two.
+    """
+    scaler = Scalers(hosts)
+    if size == 'small':
+        scaler.small()
+    elif size == 'large':
+        scaler.large()
+    else:
+        scaler.toggle()
+
+
+if __name__ == '__main__':
+    size = None
+    hosts = {
+        "grooveshark.com": 0.0,
+    }
+
+    if len(sys.argv) > 1:
+        size = sys.argv[1]
+
+    res = scale(hosts, size)
+    if not res:
+        sys.exit(1)

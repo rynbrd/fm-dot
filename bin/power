@@ -1,0 +1,47 @@
+#!/bin/bash
+
+LOCKIMG=$(grep i3lock "${HOME}/.i3/config" | sed -r -e 's/.*-i\s+(\S+)\s.*/\1/g')
+LOCK="i3lock -i $LOCKIMG -t"
+BLANK="$LOCK -d"
+
+case $1 in
+suspend)
+    echo "Suspending to RAM..."
+    eval $LOCK 
+    sudo /usr/sbin/pm-suspend
+    ;;
+hibernate)
+    echo "Suspending to disk..."
+    eval $LOCK 
+    sudo /usr/sbin/pm-hibernate
+    ;;
+reboot)
+    echo "Rebooting..."
+    sudo /sbin/reboot
+    ;;
+shutdown)
+    echo "Shutting down..."
+    sudo /sbin/shutdown -h now
+    ;;
+lock)
+    echo "Locking screen..."
+    eval $LOCK
+    ;;
+blank)
+    echo "Blanking screen..."
+    eval $BLANK
+    ;;
+windows)
+    echo "Booting into Windows..."
+    mount | grep -q ' /boot '
+    test $? -ne 0 && sudo mount /boot
+    ENTRIES=$(sudo cat /boot/grub2/grub.cfg | grep ^menuentry | wc -l)
+    WINDOWS=$((${ENTRIES}-1))
+    sudo /usr/bin/grub2-editenv /boot/grub2/grubenv set saved_entry=$WINDOWS
+    sudo /sbin/reboot
+    ;;
+*)
+    echo "usage: power COMMAND" >&2
+    echo "valid commands are: suspend hibernate reboot shutdown" >&2
+    ;;
+esac

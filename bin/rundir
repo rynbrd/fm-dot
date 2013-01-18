@@ -1,0 +1,20 @@
+#!/bin/bash
+
+usage() {
+    echo "usage: $(basename "$0") PATH" >&2
+    echo "Execute all scripts in a directory." >&2
+    exit $1
+}
+
+die() {
+    echo "$1" >&2
+    exit 1
+}
+
+test "$1" == "" && usage 1
+test "$2" != "" && usage 1
+test -d "$1" || die "'$1' must be a directory"
+
+for SCRIPT in $(ls "$1" | sort); do
+    test -x "${1}/${SCRIPT}" && "${1}/${SCRIPT}"
+done
