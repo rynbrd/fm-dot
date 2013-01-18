@@ -4,6 +4,8 @@
 DOT=$(readlink -f "$(dirname $0)")
 MODS="${DOT}/modules"
 
+git submodule update --init
+
 ln -sf "${DOT}/bashrc" ~/.bashrc
 ln -sf "${DOT}/bash_logout" ~/.bash_logout
 ln -sf "${DOT}/bash_profile" ~/.bash_profile
