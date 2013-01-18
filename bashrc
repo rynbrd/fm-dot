@@ -3,7 +3,7 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
-DOT=$(readlink -f "$(dirname $0)")
+DOT="${HOME}/.dot"
 MODS="${DOT}/modules"
 PATH="${DOT}/bin:~/Sandbox/bin:~/Work/bin:/sbin:/usr/sbin:${PATH}"
 
