@@ -1,0 +1,4 @@
+#!/bin/sh
+MINECRAFT=/home/sadpengu/Sandbox/minecraft
+java -Xmx1024M -Xms512M -cp "${MINECRAFT}/minecraft.jar" net.minecraft.LauncherFrame
+

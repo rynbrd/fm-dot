@@ -1,0 +1,4 @@
+#!/bin/sh
+MINECRAFT=/home/sadpengu/Sandbox/minecraft
+java -jar "${MINECRAFT}/technic-launcher.jar"
+
