@@ -1,8 +1,3 @@
-# Only run this in an interactive shell.
-if [[ $- != *i* ]] ; then
-	return
-fi
-
 DOT="${HOME}/.dot"
 MODS="${DOT}/modules"
 PATH="${DOT}/bin:~/Sandbox/bin:~/Work/bin:/sbin:/usr/sbin:${PATH}"
@@ -26,8 +21,11 @@ for MOD in $(ls "$MODS"); do
 	source_module "$MOD"
 done
 
-alias grep="grep -s --color"
-alias egrep="egrep --color"
+# Only run this in an interactive shell.
+if [[ $- != *i* ]]; then
+	alias grep="grep -s --color"
+	alias egrep="egrep --color"
 
-stty start ""
-stty stop ""
+	stty start ""
+	stty stop ""
+fi
