@@ -4,8 +4,8 @@ if [[ $- != *i* ]] ; then
 fi
 
 DOT=$(readlink -f "$(dirname $0)")
-MODS="${DOT}/config"
-PATH="~/Sandbox/bin:~/Work/bin:${DOT}/bin:/sbin:/usr/sbin:${PATH}"
+MODS="${DOT}/modules"
+PATH="${DOT}/bin:~/Sandbox/bin:~/Work/bin:/sbin:/usr/sbin:${PATH}"
 
 source_module() {
 	local MODPATH
