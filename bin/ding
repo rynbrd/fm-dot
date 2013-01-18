@@ -1,0 +1,23 @@
+#!/bin/bash
+SOUNDS="${HOME}/.dot/sounds"
+SOUND="$1"
+
+test "$SOUND" == "" && exit 1
+
+FILE=$(find "$SOUNDS" -name "${SOUND}.*" | head -n1)
+test -f "$FILE" || exit 1
+TYPE=$(echo "$FILE" | sed 's/.*\.//g')
+
+case $TYPE in
+'wav')
+    aplay "$FILE" &> /dev/null
+    ;;
+'mp3')
+    mpg123 "$FILE" &> /dev/null
+    ;;
+*)
+    exit 1
+    ;;
+esac
+
+exit 0
