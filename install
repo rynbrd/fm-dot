@@ -12,3 +12,5 @@ for MOD in $(ls "$MODS"); do
 	MODINS="${MODS}/${MOD}/install"
 	test -x "$MODINS" && $MODINS
 done
+
+echo "source /etc/profile && source ${DOT}/bashrc"
