@@ -4,15 +4,18 @@
 DOT=$(readlink -f "$(dirname $0)")
 MODS="${DOT}/modules"
 
-git submodule update --init
+git submodule update --init 1>&2
 
 ln -sf "${DOT}/bashrc" ~/.bashrc
 ln -sf "${DOT}/bash_logout" ~/.bash_logout
 ln -sf "${DOT}/bash_profile" ~/.bash_profile
 
+PATH="${DOT}/bin:${PATH}"
+
 for MOD in $(ls "$MODS"); do
-	MODINS="${MODS}/${MOD}/install"
-	test -x "$MODINS" && $MODINS
+	MODPATH="${MODS}/${MOD}"
+	MODINSTALL="${MODPATH}/install"
+	test -e "$MODINSTALL" && source $MODINSTALL
 done
 
-echo "source /etc/profile && source ${DOT}/bashrc"
+echo "source /etc/profile && source ~/.bashrc"
