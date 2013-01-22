@@ -21,11 +21,8 @@ for MOD in $(ls "$MODS"); do
 	source_module "$MOD"
 done
 
-# Only run this in an interactive shell.
-if [[ $- != *i* ]]; then
-	alias grep="grep -s --color"
-	alias egrep="egrep --color"
+alias grep="grep -s --color"
+alias egrep="egrep --color"
 
-	stty start ""
-	stty stop ""
-fi
+stty start ""
+stty stop ""
