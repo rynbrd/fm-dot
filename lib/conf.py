@@ -23,7 +23,9 @@ class ConfigGenerator(object):
         @param templates A path to the directory where the configuration
             templtaes are stored.
         @param contexts A path to the context file. Defaults to None in which
-            case you can add them manually or use load().
+            case you can add them manually or use load(). If this is a list
+            then the config from each file will be loaded. Values in later
+            files in the same context will override previous values.
         @param nodefaults A list/tuple of context names not to inject defaults
             for.
         """
@@ -33,21 +35,12 @@ class ConfigGenerator(object):
         self.contexts = {'default': {}}
         self.nodefaults = nodefaults
         if contexts is not None:
-            self.load(contexts)
-
-    def update(self, context, values):
-        """
-        Update a context. The context is created if it does not exist.
-
-        @param context The context to update.
-        @param values A dict containing the values to update.
-        """
-        if context not in self.contexts:
-            if context in self.nodefaults:
-                self.contexts[context] = {}
+            if hasattr(contexts, '__iter__'):
+                for context in contexts:
+                    self.load_context(context)
             else:
-                self.contexts[context] = dict(self.contexts['default'])
-        self.contexts[context].update(values)
+                self.load_context(contexts)
+        self.load_defaults()
 
     def get(self, context, key, default=None):
         """
@@ -88,7 +81,7 @@ class ConfigGenerator(object):
         """
         return context in self.contexts and key in self.contexts[context]
 
-    def load(self, contexts):
+    def load_context(self, context):
         """
         Load substitutions from an ini-like file. Each section of the file
         contains a different set of substitutions that can be used to generate
@@ -100,16 +93,21 @@ class ConfigGenerator(object):
         """
         conf = SafeConfigParser()
         conf.optionxform = str
-        with open(contexts) as fp:
+        with open(context) as fp:
             conf.readfp(fp)
 
-        self.contexts['default']
-        if conf.has_section('default'):
-            self.contexts['default'].update(dict(conf.items('default')))
         for context in conf.sections():
-            if context != 'default':
-                self.update(context, dict(conf.items(context)))
-        
+            if context not in self.contexts:
+                self.contexts[context] = {}
+            self.contexts[context].update(dict(conf.items(context)))
+
+    def load_defaults(self):
+        for context in self.contexts.keys():
+            if context != 'default' and context not in self.nodefaults:
+                for key, value in self.contexts['default'].items():
+                    if key not in self.contexts[context]:
+                        self.contexts[context][key] = value
+
     def generate(self, context, template):
         """
         Generate a configuration from the given template using the provided

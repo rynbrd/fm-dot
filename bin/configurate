@@ -4,7 +4,9 @@ usage: configurate [-h|--help] TEMPLATE [CONTEXT]
 Generate a config file using the template file. The generated file is printed
 to stdout. The context name may be provided to use a specific context for
 template substitution instead of the hostname. The contexts file is located at
-~/.dot/contexts.
+~/.dot/contexts. A password file is included on top of the contexts file. It
+has the same format and overrides values in contexts. It is located at
+~/.dot/passwords.
 """
 
 import os
@@ -33,7 +35,10 @@ class Configurator(ConfigGenerator):
     def __init__(self):
         """Initialize object with correct context and template paths."""
         base = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-        contexts = os.path.join(base, 'contexts')
+        contexts = [
+            os.path.join(base, 'contexts'),
+            os.path.join(base, 'passwords'),
+        ]
         super(self.__class__, self).__init__(contexts)
 
     def generate(self, context, template):
