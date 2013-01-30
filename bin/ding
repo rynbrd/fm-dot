@@ -10,10 +10,10 @@ TYPE=$(echo "$FILE" | sed 's/.*\.//g')
 
 case $TYPE in
 'wav')
-    aplay "$FILE" &> /dev/null
+    aplay "$FILE" &> /dev/null &
     ;;
 'mp3')
-    mpg123 "$FILE" &> /dev/null
+    mpg123 "$FILE" &> /dev/null &
     ;;
 *)
     exit 1
