@@ -22,8 +22,10 @@ for MOD in $(ls "$MODS"); do
 done
 
 set -o vi
+bind -m vi-insert "\C-l":clear-screen
 alias grep="grep -s --color"
 alias egrep="egrep --color"
 
 stty start ""
 stty stop ""
+
