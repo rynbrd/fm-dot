@@ -21,6 +21,7 @@ for MOD in $(ls "$MODS"); do
 	source_module "$MOD"
 done
 
+set -o vi
 alias grep="grep -s --color"
 alias egrep="egrep --color"
 
