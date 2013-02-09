@@ -1,3 +1,5 @@
+[[ -f /etc/profile ]] && source /etc/profile
+
 DOT="${HOME}/.dot"
 MODS="${DOT}/modules"
 PATH="${DOT}/bin:~/Sandbox/bin:~/Work/bin:/sbin:/usr/sbin:${PATH}"
