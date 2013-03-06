@@ -10,3 +10,6 @@
 [submodule "modules/irssi"]
 	path = modules/irssi
 	url = git@github.com:BlueDragonX/fm-dot-irssi.git
+[submodule "modules/git"]
+	path = modules/git
+	url = git@github.com:BlueDragonX/fm-dot-git.git

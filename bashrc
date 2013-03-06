@@ -19,6 +19,21 @@ ww() {
     eval `work $@`
 }
 
+pygrep() {
+	grep -s "$@" $(find ./ -name '*.py')
+}
+
+pyegrep() {
+	egrep -s "$@" $(find ./ -name '*.py')
+}
+jgrep() {
+	grep -s "$@" $(find ./ -name '*.java')
+}
+
+jegrep() {
+	egrep -s "$@" $(find ./ -name '*.java')
+}
+
 for MOD in $(ls "$MODS"); do
 	source_module "$MOD"
 done
