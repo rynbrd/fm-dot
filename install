@@ -6,10 +6,6 @@ MODS="${DOT}/modules"
 
 git submodule update --init 1>&2
 
-ln -sf "${DOT}/bashrc" ~/.bashrc
-ln -sf "${DOT}/bash_logout" ~/.bash_logout
-ln -sf "${DOT}/bash_profile" ~/.bash_profile
-
 PATH="${DOT}/bin:${PATH}"
 
 for MOD in $(ls "$MODS"); do
@@ -17,5 +13,3 @@ for MOD in $(ls "$MODS"); do
 	MODINSTALL="${MODPATH}/install"
 	test -e "$MODINSTALL" && source $MODINSTALL
 done
-
-echo "source /etc/profile && source ~/.bashrc"

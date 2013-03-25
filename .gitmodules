@@ -13,3 +13,6 @@
 [submodule "modules/git"]
 	path = modules/git
 	url = git@github.com:BlueDragonX/fm-dot-git.git
+[submodule "modules/bash"]
+	path = modules/bash
+	url = git@github.com:BlueDragonX/fm-dot-bash.git
