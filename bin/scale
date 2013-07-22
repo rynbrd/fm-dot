@@ -80,7 +80,7 @@ class Scaler(object):
 class GnomeScaler(Scaler):
     """Adjust Gnome text scaling."""
 
-    def __init__(self, small=1.3, large=1.5):
+    def __init__(self, small=1.1, large=1.4):
         """
         Initializes Gnome settings object and scaling factors.
 
