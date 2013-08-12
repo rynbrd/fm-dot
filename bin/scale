@@ -1,9 +1,10 @@
 #!/bin/env python3
 
-import os
-import sys
 import json
+import os
+import re
 import subprocess
+import sys
 from gi.repository import Gio
 
 
@@ -97,6 +98,37 @@ class GnomeScaler(Scaler):
     def set(self, size):
         """Set the Gnome text scaling factor."""
         self.settings.set_double('text-scaling-factor', size)
+
+
+class DpiScaler(Scaler):
+    """Toggle Xorg DPI setting."""
+
+    def __init__(self, small=96, large=165):
+        """
+        Initialize scaling values.
+
+        @param small The small DPI setting.
+        @param large The large DPI setting.
+        """
+        super(DpiScaler, self).__init__(small, large)
+
+    def get(self):
+        """
+        Return the Xorg DPI value.
+        """
+        match = re.compile(r'^\s*resolution:')
+        replace = re.compile(r'^\s*resolution:\s+([0-9]+)x.*$')
+
+        out = subprocess.check_output('xdpyinfo')
+        for line in out.split("\n"):
+            if match.match(line):
+                return int(replace.sub('\\1', line))
+
+    def set(self, size):
+        """
+        Set the Xorg DPI value.
+        """
+        subprocess.call(['xrandr', '--dpi', str(size)])
 
 
 class ChromeScaler(Scaler):
@@ -193,7 +225,7 @@ class Scalers(object):
         """
         self.scalers = [
             ChromeScaler(hostzoom=hosts),
-            GnomeScaler(),
+            DpiScaler(),
         ]
         self.key_scaler = self.scalers[0]
 
