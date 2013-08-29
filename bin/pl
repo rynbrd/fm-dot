@@ -1,0 +1,30 @@
+#!/bin/bash -u
+set -e
+
+die() {
+    echo "$@" >&2
+    exit 1
+}
+
+usage() {
+	local msg="usage: $(basename "$0") PLS"
+	if [ -n "${1-}" ]; then
+		echo "$@" >&2
+		echo "$msg" >&2
+		exit 1
+	else
+		echo "$msg"
+	fi
+}
+
+test -z "${1-}" && usage "No playlist provided."
+test -n "${2-}" && usage "Too many arguments."
+test -e "$1" || die "Playlist does not exist."
+
+files=$(egrep '^File[0-9]+=' "$1" | cut -d= -f2)
+
+while true; do
+	for file in $files; do
+		mplayer "$file"
+	done
+done
