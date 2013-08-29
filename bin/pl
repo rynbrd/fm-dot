@@ -21,10 +21,4 @@ test -z "${1-}" && usage "No playlist provided."
 test -n "${2-}" && usage "Too many arguments."
 test -e "$1" || die "Playlist does not exist."
 
-files=$(egrep '^File[0-9]+=' "$1" | cut -d= -f2)
-
-while true; do
-	for file in $files; do
-		mplayer "$file"
-	done
-done
+mplayer -loop 0 -playlist "$1"
