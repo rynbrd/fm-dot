@@ -16,3 +16,6 @@
 [submodule "modules/bash"]
 	path = modules/bash
 	url = git@github.com:BlueDragonX/fm-dot-bash.git
+[submodule "modules/go"]
+	path = modules/go
+	url = git@github.com:BlueDragonX/fm-dot-go.git
