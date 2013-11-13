@@ -1,3 +1,4 @@
-#!/bin/bash
+#!/bin/bash -u
 xrandr --output DP-2 --off && xrandr --dpi 96 && echo "Retina display disabled"
-trackpad off
+trackpad off && echo "Trackpad disabled"
+xsetmap quickfire && echo "Quickfire keymap enabled"
