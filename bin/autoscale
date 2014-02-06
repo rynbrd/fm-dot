@@ -1,24 +1,24 @@
-#!/bin/bash
+#!/bin/bash -u
 # Call the scaler for Retina displays. We only want to scale up when using the
 # Retina display as our primary device.
+retina_res="(2880x1800|2560x1600)"
+
 die() {
-    test "$1" == "" || echo "$1"
-    exit 1
+	test "$1" == "" || echo "$1"
+	exit 1
 }
 
-xrandr | egrep -q '^\s+2880x1800'
-test $? -eq 0 || die "No Retina resolution found."
+retina=$(xrandr | egrep "^DP-[0-9] connected.*\b${retina_res}\b" | sed 's/ .*//g')
+thunderbolt=$(xrandr | egrep "^DP-[0-9] connected\b" | egrep -v "$retina_res" | sed 's/ .*//g')
 
-CHROMEPID=$(ps aux | egrep "^$USER\s.*google.*chrome" | awk '{print $2}' | sort | head -n1)
-test "$CHROMEPID" == "" || kill "$CHROMEPID"
-
-xrandr | egrep '^DP-[0-9]\s+connected' &> /dev/null
-if [ $? -eq 0 ]; then
-    echo "Scaling small."
-    scale small
+if [ -n "$thunderbolt" ]; then
+	test -n "$retina" && xrandr --output "$retina" --off
+	trackpad off
+	xsetmap quickfire
+	scale small
+	echo "Onboard peripherals disabled."
 else
-    echo "Scaling large."
-    scale large
+	xsetmap apple
+	scale large
+	echo "Onboard peripherals enabled."
 fi
-
-test "$CHROMEPID" == "" || exec google-chrome
