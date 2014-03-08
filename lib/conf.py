@@ -3,7 +3,7 @@ Config file generation using Mustache.
 """
 
 import os
-from configparser import SafeConfigParser
+from ConfigParser import SafeConfigParser
 from pystache import defaults, Renderer
 
 
