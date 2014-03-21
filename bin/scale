@@ -1,11 +1,10 @@
-#!/bin/env python3
+#!/bin/env python2
 
 import json
 import os
 import re
 import subprocess
 import sys
-from gi.repository import Gio
 
 
 class ScalerError(Exception):
@@ -34,88 +33,35 @@ class ScalerError(Exception):
 class Scaler(object):
     """Base scaler class."""
 
-    def __init__(self, small, large):
+    def __init__(self, settings):
         """
         Initialize the scaler.
 
-        @param small The scaling factor for a small interface.
-        @param large The scaling factor for a large interface.
+        @param settings The scaler settings.
         """
-        self.small_factor = small
-        self.large_factor = large
+        self.sizes = settings['sizes']
+        self.settings = settings
 
-    def is_small(self):
-        """
-        Check if the interface is small. Calculated by comparing the current
-        factor to the average of the small and large factors.
+    def get_size(self):
+        """Return the current size of the scaler or None of undetermined."""
+        factors = {f[1]: f[0] for f in self.sizes.iteritems()}
+        current = self.get()
+        nearest = min(factors.keys(), key=lambda factor: abs(factor - current))
+        return factors[nearest]
 
-        @return True if the interface is small or False.
-        """
-        avg = float(self.small_factor + self.large_factor) / 2.0
-        return self.get() < avg
-
-    def small(self):
-        """Set scaling to small."""
-        self.set(self.small_factor)
-
-    def large(self):
-        """Set scaling to large."""
-        self.set(self.large_factor)
-
-    def toggle(self):
-        """
-        Toggle scaling between small and large. If the current scaling factor
-        is set to neither the small nor large value then the scaler will
-        attempt to guess which to switch to.
-
-        @return The new scaling factor.
-        """
-        if self.is_small():
-            self.large()
-            return self.large_factor
-        else:
-            self.small()
-            return self.small_factor
-
-
-class GnomeScaler(Scaler):
-    """Adjust Gnome text scaling."""
-
-    def __init__(self, small=1.1, large=1.4):
-        """
-        Initializes Gnome settings object and scaling factors.
-
-        @param small The scaling factor for a small interface.
-        @param large The scaling factor for a large interface.
-        """
-        super(GnomeScaler, self).__init__(small, large)
-        self.settings = Gio.Settings.new('org.gnome.desktop.interface')
-
-    def get(self):
-        """Get the Gnome text scaling factor."""
-        return self.settings.get_double('text-scaling-factor')
-
-    def set(self, size):
-        """Set the Gnome text scaling factor."""
-        self.settings.set_double('text-scaling-factor', size)
+    def set_size(self, size):
+        """Set the scaler to the given size."""
+        factor = self.sizes.get(size, None)
+        if factor is None:
+            raise ScalerError("No factor for size {}.".format(size))
+        self.set(factor)
 
 
 class DpiScaler(Scaler):
-    """Toggle Xorg DPI setting."""
-
-    def __init__(self, small=96, large=165):
-        """
-        Initialize scaling values.
-
-        @param small The small DPI setting.
-        @param large The large DPI setting.
-        """
-        super(DpiScaler, self).__init__(small, large)
+    """Adjust the Xorg DPI setting."""
 
     def get(self):
-        """
-        Return the Xorg DPI value.
-        """
+        """Return the Xorg DPI value."""
         match = re.compile(r'^\s*resolution:')
         replace = re.compile(r'^\s*resolution:\s+([0-9]+)x.*$')
 
@@ -125,9 +71,7 @@ class DpiScaler(Scaler):
                 return int(replace.sub('\\1', line))
 
     def set(self, size):
-        """
-        Set the Xorg DPI value.
-        """
+        """Set the Xorg DPI value."""
         subprocess.call(['xrandr', '--dpi', str(size)])
 
 
@@ -136,78 +80,41 @@ class ChromeScaler(Scaler):
 
     default_preferences = '.config/google-chrome-beta/Default/Preferences'
 
-    def __init__(self, small=0.0, large=3.069389038663465, preferences=None,
-                 hostzoom=None):
-        """
-        Initializes preferences and scaling factors.
-
-        @param small The scaling factor for a small interface.
-        @param large The scaling factor for a large interface.
-        @param preferences The path to the Chrome preferences file.
-        @param hostzoom Always set this zoom for these hosts.
-        """
-        super(ChromeScaler, self).__init__(small, large)
-        if preferences is None:
-            preferences = self.default_preferences
-        if preferences[0] != '/':
-            preferences = '%s/%s' % (os.getenv("HOME"), preferences)
-        if hostzoom is None:
-            hostzoom = {}
-
-        self.preferences = preferences
-        self.hostzoom = hostzoom
-
     @classmethod
     def is_running(cls):
-        """
-        Check if Chrome is running.
-
-        @return True if Chrome is running or False.
-        """
+        """Check if Chrome is running."""
         cmd = "ps ax | awk '{print $5}' | grep -q '/chrome$'"
         return subprocess.call(cmd, shell=True) == 0
 
-    def load(self):
-        """
-        Load the Chrome preferences.
+    def __init__(self, settings):
+        super(ChromeScaler, self).__init__(settings)
+        self.preferences = settings.get('preferences', self.default_preferences)
+        self.hostzoom = settings.get('hosts', {})
 
-        @return The Chrome preferences object.
-        """
+    def load(self):
+        """Load the Chrome preferences."""
         try:
             return json.load(open(self.preferences, 'r'))
         except IOError as e:
             raise ScalerError("Unable to open preferences for reading.", e)
 
     def save(self, preferences):
-        """
-        Save the Chrome preferences.
-
-        @param preferences The Chrome preferences object to save.
-        """
+        """Save the Chrome preferences."""
         if self.is_running():
             #TODO: Restart Chrome to update preferences.
-            raise ScalerError(
-                "Chrome is running, unable to write preferences.")
+            raise ScalerError("Chrome is running, unable to write preferences.")
         try:
             json.dump(preferences, open(self.preferences, 'w'), indent=4)
         except IOError as e:
             raise ScalerError("Unable to open preferences for writing.", e)
 
     def get(self):
-        """
-        Get the scaling factor.
-
-        @return The current scaling factor.
-        """
+        """Return the scaling factor."""
         preferences = self.load()
         return preferences['profile']['default_zoom_level']
 
     def set(self, scale):
-        """
-        Set the scaling factor.
-
-        @param scale The new scaling factor.
-        """
+        """Set the scaling factor."""
         preferences = self.load()
         preferences['profile']['default_zoom_level'] = scale
         preferences['profile']['per_host_zoom_levels'] = self.hostzoom
@@ -217,39 +124,45 @@ class ChromeScaler(Scaler):
 class Scalers(object):
     """Scale the UI."""
 
-    def __init__(self, hosts=None):
+    def __init__(self, settings):
         """
         Initialize the scalers.
 
         @param hosts A dict of hostnames with zoom values to set in Chrome.
         """
-        self.scalers = [
-            ChromeScaler(hostzoom=hosts),
-            DpiScaler(),
-        ]
-        self.key_scaler = self.scalers[0]
+        self.settings = settings
+        self.scalers = (
+            ChromeScaler,
+            DpiScaler,
+        )
+        self.index_scaler = self.scalers[0]
 
-    def small(self):
-        """Set all scalers to small."""
-        for scaler in self.scalers:
-            try:
-                scaler.small()
-            except Exception as e:
-                sys.stderr.write("Error in %s: %s\n" % (
-                    scaler.__class__.__name__, e))
+    def get_scaler(self, scaler):
+        """Return an initialized scaler."""
+        settings = self.settings.get(scaler.__name__, {})
+        return scaler(settings)
 
-    def large(self):
-        """Set all scalers to large."""
-        for scaler in self.scalers:
+    def get_index_scaler(self):
+        """Return the key scaler."""
+        return self.get_scaler(self.index_scaler)
+
+    def get_size(self):
+        """Return the current size."""
+        return self.get_index_scaler().get_size()
+
+    def set_size(self, size):
+        """Scale all scalers."""
+        for scaler in (self.get_scaler(s) for s in self.scalers):
             try:
-                scaler.large()
+                scaler.set_size(size)
             except Exception as e:
-                sys.stderr.write("Error in %s: %s\n" % (
+                sys.stderr.write("Error in {}: {}\n".format(
                     scaler.__class__.__name__, e))
 
     def toggle(self):
         """Toggle all scalers between small and large."""
-        if self.key_scaler.is_small():
+        size = self.get_index_scaler().get_size()
+        if size in ('small', 'tiny'):
             self.large()
         else:
             self.small()
@@ -263,11 +176,26 @@ def scale(hosts, size=None):
     @param size The size to scale to. Either 'small' or 'large'. Otherwise will
         toggle the scale between the two.
     """
-    scaler = Scalers(hosts)
-    if size == 'small':
-        scaler.small()
-    elif size == 'large':
-        scaler.large()
+    settings = {
+        'ChromeScaler': {
+            'hosts': hosts,
+            'sizes': {
+                'tiny': 0.0,
+                'small': 0.0,
+                'large': 3.069389038663465,
+            }
+        },
+        'DpiScaler': {
+            'sizes': {
+                'tiny': 72,
+                'small': 96,
+                'large': 165,
+            }
+        },
+    }
+    scaler = Scalers(settings)
+    if size:
+        scaler.set_size(size)
     else:
         scaler.toggle()
 
