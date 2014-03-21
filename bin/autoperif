@@ -27,3 +27,5 @@ else
 	scale large
 	echo "Onboard peripherals enabled."
 fi
+
+i3-msg restart
