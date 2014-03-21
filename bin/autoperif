@@ -10,6 +10,7 @@ die() {
 
 retina=$(xrandr | egrep "^DP-[0-9] connected.*\b${retina_res}\b" | sed 's/ .*//g')
 thunderbolt=$(xrandr | egrep "^DP-[0-9] connected\b" | egrep -v "$retina_res" | sed 's/ .*//g')
+netbook=$(xrandr | egrep "^LVDS")
 
 if [ -n "$thunderbolt" ]; then
 	test -n "$retina" && xrandr --output "$retina" --off
@@ -17,6 +18,10 @@ if [ -n "$thunderbolt" ]; then
 	xsetmap quickfire
 	scale small
 	echo "Onboard peripherals disabled."
+elif [ -n netbook ]; then
+	xsetmap acer
+	scale tiny
+	echo "Onboard peripherals enabled."
 else
 	xsetmap apple
 	scale large
