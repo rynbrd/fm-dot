@@ -78,7 +78,7 @@ class DpiScaler(Scaler):
 class ChromeScaler(Scaler):
     """Adjust Google Chrome zoom level."""
 
-    default_preferences = '.config/google-chrome-beta/Default/Preferences'
+    default_preferences = '~/.config/google-chrome-beta/Default/Preferences'
 
     @classmethod
     def is_running(cls):
@@ -88,7 +88,8 @@ class ChromeScaler(Scaler):
 
     def __init__(self, settings):
         super(ChromeScaler, self).__init__(settings)
-        self.preferences = settings.get('preferences', self.default_preferences)
+        self.preferences = os.path.expanduser(
+            settings.get('preferences', self.default_preferences))
         self.hostzoom = settings.get('hosts', {})
 
     def load(self):
@@ -180,7 +181,7 @@ def scale(hosts, size=None):
         'ChromeScaler': {
             'hosts': hosts,
             'sizes': {
-                'tiny': 0.0,
+                'tiny': -0.5778829455375671,
                 'small': 0.0,
                 'large': 3.069389038663465,
             }
