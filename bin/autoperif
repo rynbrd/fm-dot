@@ -18,7 +18,7 @@ if [ -n "$thunderbolt" ]; then
 	xsetmap quickfire
 	scale small
 	echo "Onboard peripherals disabled."
-elif [ -n netbook ]; then
+elif [ -n "$netbook" ]; then
 	xsetmap acer
 	scale tiny
 	echo "Onboard peripherals enabled."
