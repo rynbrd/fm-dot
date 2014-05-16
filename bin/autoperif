@@ -14,6 +14,8 @@ netbook=$(xrandr | egrep "^LVDS")
 
 if [ -n "$thunderbolt" ]; then
 	test -n "$retina" && xrandr --output "$retina" --off
+	xrandr --output DP-3 --primary
+	xrandr --output DP-4 --auto --left-of DP-3
 	trackpad off
 	xsetmap quickfire
 	scale small
