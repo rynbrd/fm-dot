@@ -19,3 +19,9 @@
 [submodule "modules/go"]
 	path = modules/go
 	url = git@github.com:BlueDragonX/fm-dot-go.git
+[submodule "modules/chrome"]
+	path = modules/chrome
+	url = git@github.com:BlueDragonX/fm-dot-chrome.git
+[submodule "modules/docker"]
+	path = modules/docker
+	url = git@github.com:BlueDragonX/fm-dot-docker.git
