@@ -30,4 +30,5 @@ else
 	echo "Onboard peripherals enabled."
 fi
 
+dconf write /org/gnome/settings-daemon/plugins/keyboard/active false
 i3-msg restart
