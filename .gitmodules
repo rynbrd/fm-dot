@@ -25,3 +25,6 @@
 [submodule "modules/docker"]
 	path = modules/docker
 	url = git@github.com:BlueDragonX/fm-dot-docker.git
+[submodule "modules/fonts"]
+	path = modules/fonts
+	url = git@github.com:BlueDragonX/fm-dot-fonts.git
