@@ -1,10 +1,10 @@
 [default]
-i3_font_face=Terminus for Powerline
+i3_font_face=Inconsolata-g for Powerline
 i3_font_size=12
-menu_font_face=Terminus for Powerline
+menu_font_face=Inconsolata-g for Powerline
 menu_font_size=12
-term_font_face=Terminus
-term_font_size=12
+term_font_face=Inconsolata-g\ for\ Powerline
+term_font_size=11
 
 [makara]
 i3_font_size=8
