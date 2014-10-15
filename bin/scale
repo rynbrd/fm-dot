@@ -78,7 +78,7 @@ class DpiScaler(Scaler):
 class ChromeScaler(Scaler):
     """Adjust Google Chrome zoom level."""
 
-    default_preferences = '~/.config/google-chrome/Default/Preferences'
+    default_preferences = '~/.config/google-chrome-unstable/Default/Preferences'
 
     @classmethod
     def is_running(cls):
