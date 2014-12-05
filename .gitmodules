@@ -28,3 +28,6 @@
 [submodule "modules/fonts"]
 	path = modules/fonts
 	url = git@github.com:BlueDragonX/fm-dot-fonts.git
+[submodule "modules/gnupg"]
+	path = modules/gnupg
+	url = git@github.com:BlueDragonX/fm-dot-gnupg.git
