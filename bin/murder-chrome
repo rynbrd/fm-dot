@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo kill -9 $(ps ax | egrep '[g]oogle-chrome' | awk '{print $1}')
+sudo kill -9 $(ps ax | egrep '[g]oogle/chrome' | awk '{print $1}')
