@@ -17,7 +17,7 @@ hibernate)
     ;;
 reboot)
     echo "Rebooting..."
-    sudo /sbin/reboot
+    sudo /sbin/shutdown -r now
     ;;
 shutdown)
     echo "Shutting down..."
