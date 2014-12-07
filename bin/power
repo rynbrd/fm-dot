@@ -19,7 +19,7 @@ reboot)
     echo "Rebooting..."
     sudo /sbin/shutdown -r now
     ;;
-shutdown)
+off|shutdown)
     echo "Shutting down..."
     sudo /sbin/shutdown -h now
     ;;
