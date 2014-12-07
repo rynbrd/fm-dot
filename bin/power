@@ -31,15 +31,6 @@ blank)
     echo "Blanking screen..."
     eval $BLANK
     ;;
-windows)
-    echo "Booting into Windows..."
-    mount | grep -q ' /boot '
-    test $? -ne 0 && sudo mount /boot
-    ENTRIES=$(sudo cat /boot/grub2/grub.cfg | grep ^menuentry | wc -l)
-    WINDOWS=$((${ENTRIES}-1))
-    sudo /usr/bin/grub2-editenv /boot/grub2/grubenv set saved_entry=$WINDOWS
-    sudo /sbin/reboot
-    ;;
 *)
     echo "usage: power COMMAND" >&2
     echo "valid commands are: suspend hibernate reboot shutdown" >&2
