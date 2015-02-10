@@ -112,7 +112,7 @@ class ChromeScaler(Scaler):
     def get(self):
         """Return the scaling factor."""
         preferences = self.load()
-        return preferences['profile']['default_zoom_level']
+        return preferences['partition']['default_zoom_level']['0']
 
     def set(self, scale):
         """Set the scaling factor."""
@@ -164,9 +164,9 @@ class Scalers(object):
         """Toggle all scalers between small and large."""
         size = self.get_index_scaler().get_size()
         if size in ('small', 'tiny'):
-            self.large()
+            self.set_size('large')
         else:
-            self.small()
+            self.set_size('small')
 
 
 def scale(hosts, size=None):
