@@ -133,8 +133,8 @@ class Scalers(object):
         """
         self.settings = settings
         self.scalers = (
-            ChromeScaler,
             DpiScaler,
+            ChromeScaler,
         )
         self.index_scaler = self.scalers[0]
 
