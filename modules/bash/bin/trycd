@@ -1,0 +1,38 @@
+#!/bin/bash -u
+
+usage() {
+	echo "usage: $(basename $0) DIRECTORY PATTERN [PREFIX ...]"
+	echo "Print a CD command to the subdirectory in DIRECTORY that best matches the"
+	echo "provided shell PATTERN."
+}
+
+test -z "${1-}" && usage >&2 && exit 1
+test -z "${2-}" && usage >&2 && exit 1
+
+basedir="$1"
+pattern="$2"
+shift 2
+prefixes="$@"
+
+test -d "$basedir" || exit 1
+
+cd_and_exit() {
+	test -d "${1-}" && echo "cd '${1-}'" && exit 0
+}
+
+glob_and_exit() {
+	dir=$(find "${1-}" -maxdepth 1 -name "${2-}" | sort | head -n1)
+	test -n "$dir" && echo "cd '$dir'" && exit 0
+}
+
+cd_and_exit "$basedir/$pattern"
+for prefix in $prefixes; do
+	cd_and_exit "$basedir/${prefix}${pattern}"
+done
+
+glob_and_exit "$basedir" "${pattern}*"
+for prefix in $prefixes; do
+	glob_and_exit "$basedir" "${prefix}${pattern}*"
+done
+
+exit 1

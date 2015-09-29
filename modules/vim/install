@@ -1,0 +1,18 @@
+#!/bin/bash
+# Install vim configuration.
+rm -f ~/.vimrc
+rm -f ~/.gvimrc
+
+if [[ -e "${MODPATH}/vimrc" ]]; then
+	ln -sf "${MODPATH}/vimrc" ~/.vimrc
+	ln -sf "${MODPATH}/vimrc" ~/.gvimrc
+fi
+
+if [[ "${HOME}/.vim" != "$MODPATH" ]]; then
+	rm -rf ~/.vim
+	ln -sf "$MODPATH" ~/.vim
+fi
+
+# build command-t ruby module
+cd ~/.vim/bundle/command-t/ruby/command-t
+ruby extconf.rb

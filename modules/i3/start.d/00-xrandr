@@ -1,0 +1,15 @@
+#!/bin/bash
+
+OUTPUTS="$(i3-msg -t get_outputs \
+    | python3 -m json.tool \
+    | grep '"name":' \
+    | sed -e 's/^\s*"name": "//' -e 's/",\s*$//')"
+PRIMARY=$(echo $OUTPUTS | sed 's/ .*//')
+SECONDARY=$(echo $OUTPUTS | sed 's/^\S* //g')
+PREV=$PRIMARY
+
+xrandr --output $PRIMARY --primary
+for OUTPUT in $SECONDARY; do
+    xrandr --output $OUTPUT --right-of $PREV
+    PREV=$OUTPUT
+done

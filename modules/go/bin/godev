@@ -1,0 +1,4 @@
+#!/bin/bash -u
+DEV=$(cd "${1-$(pwd)}"; pwd)
+DEST="$HOME/.go/src"
+mkdir -p "$DEST" && cd "$DEST" && ln -s "$DEV"

@@ -1,0 +1,82 @@
+[[ -f /etc/profile ]] && source /etc/profile
+
+umask 0027
+
+DOT="${HOME}/.dot"
+MODS="${DOT}/modules"
+PATH="${DOT}/bin:${DOT}/modules/bash/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
+PS1='\[\033[01;32m\]\w \[\033[01;34m\]\$\[\033[00m\] '
+GPG_TTY=`tty`
+
+case "$TERM" in 
+screen*|xterm*|rxvt*)
+	PROMPT_COMMAND='echo -ne "\033]0;${PWD/#$HOME/~} \$\007"'
+
+	set_title() {
+		case "$BASH_COMMAND" in
+		*\033]0*)
+			;;
+		*)
+			echo -ne "\033]0;${PWD/#$HOME/~} \$ ${BASH_COMMAND}\007"
+			;;
+		esac
+	}
+	trap set_title DEBUG
+	;;
+esac
+
+source_module() {
+	local MODPATH
+	local MODRC
+	MODPATH="${MODS}/${1}"
+	MODRC="${MODPATH}/bashrc"
+	if [[ "$1" != "bash" ]] && [[ -e "$MODRC" ]]; then
+		source $MODRC
+	fi
+}
+
+for MOD in $(ls "$MODS"); do
+	source_module "$MOD"
+done
+
+[[ -f ~/Work/.bashrc ]] && source ~/Work/.bashrc
+
+set -o vi
+bind -m vi-insert "\C-l":clear-screen
+alias grep="grep -s --color"
+alias egrep="egrep --color"
+alias ls="ls --color"
+export EDITOR="vim"
+
+bd() {
+	# quickly go back to a parent directory
+	test "${1-}" == "" && return 2
+	local newpwd=$(echo $(pwd) | sed 's|\(.*/'$1'[^/]*/\).*|\1|')
+	local index=$(echo "$newpwd" | awk '{ print index($1,"/'$1'"); }')
+	test "$index" -eq 0 && return 1
+	cd "$newpwd"
+}
+
+sb() {
+	local sandbox="$HOME/Sandbox"
+	local default="."
+    which trycd &> /dev/null || return
+	test -z "${1-}" && cd "${sandbox}/${default}" && return
+    eval `trycd "$sandbox" "${1-}" go-`
+}
+
+venv() {
+	local name=${1:-.venv}
+	if ! [ -e "$name" ]; then
+		virtualenv --no-site-packages "$name"
+		source "$name/bin/activate"
+		pip install --upgrade pip
+	else
+		source "$name/bin/activate"
+	fi
+}
+
+stty start ""
+stty stop ""
+
+export PATH

@@ -1,0 +1,8 @@
+#!/bin/bash
+# Install i3 configuration.
+I3PATH="${HOME}/.i3"
+configurate "${MODPATH}/config.tpl" > "${MODPATH}/config"
+if [[ "$I3PATH" != "$MODPATH" ]]; then
+	rm -rf "$I3PATH"
+	ln -sf "$MODPATH" "$I3PATH"
+fi

@@ -1,0 +1,13 @@
+! make capslock a ctrl key
+clear Lock
+clear Control
+keycode 37 = Control_R
+keycode 66 = Control_L
+add Control = Control_R
+add Control = Control_L
+! make Alt_L+hjkl act like arrow keys
+keycode 64 = Mode_switch
+keysym h = h H Left NoSymbol NoSymbol NoSymbol
+keysym j = j J Down NoSymbol NoSymbol NoSymbol
+keysym k = k K Up NoSymbol NoSymbol NoSymbol
+keysym l = l L Right NoSymbol NoSymbol NoSymbol

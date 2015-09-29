@@ -1,0 +1,3 @@
+if ! which keysocket-server > /dev/null; then
+    "$MODPATH/build"
+fi

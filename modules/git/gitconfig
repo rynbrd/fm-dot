@@ -1,0 +1,18 @@
+[user]
+	email = bluedragonx@gmail.com
+	name = Ryan Bourgeois
+[push]
+	default = upstream
+[color]
+	ui = true
+[alias]
+    pr = pull --rebase
+[diff]
+    tool = vimdiff
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[gitreview]
+	scheme = https
+	port = 443
+	username = BlueDragonX
+	username = BlueDragonX

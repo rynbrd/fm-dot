@@ -1,0 +1,44 @@
+#!/bin/env python3
+"""
+usage: i3run [-h|--help] [FILE]
+Execute a series of i3 commands. Input is accepted via STDIN or FILE. Each
+command is expected to be on its own line. If placed in PATH can be used to
+execute an i3 command file as a script.
+"""
+
+import json
+import os
+import re
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'lib'))
+
+from i3 import I3Runner
+
+
+def usage(status):
+    sys.stderr.write("%s\n" % __doc__.strip())
+    sys.exit(status)
+
+
+def run(infile):
+    ignore = re.compile('^#')
+    print(json.dumps(I3Runner().load(infile, ignore)))
+
+
+if __name__ == '__main__':
+    if '-h' in sys.argv or '--help' in sys.argv:
+        usage(0)
+
+    if len(sys.argv) > 2:
+        usage(1)
+
+    infile = sys.stdin
+    if len(sys.argv) == 2:
+        try:
+            infile = open(sys.argv[1])
+        except IOError as e:
+            sys.stderr.write("%s\n" % e)
+            sys.exit(1)
+
+    run(infile)

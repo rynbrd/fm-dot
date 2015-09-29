@@ -1,0 +1,3 @@
+#!/bin/sh
+go get -u github.com/BlueDragonX/keysocket-server
+go install github.com/BlueDragonX/keysocket-server

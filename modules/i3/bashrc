@@ -1,0 +1,1 @@
+PATH="${MODPATH}/bin:${PATH}"

@@ -1,0 +1,7 @@
+#!/bin/bash
+# Install git configuration.
+rm -f ~/.gitconfig
+
+if [[ -e "${MODPATH}/gitconfig" ]]; then
+	ln -sf "${MODPATH}/gitconfig" ~/.gitconfig
+fi

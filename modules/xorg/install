@@ -1,0 +1,7 @@
+#!/bin/bash
+# Install local xorg configuration.
+configurate "${MODPATH}/Xdefaults.tpl" > "${MODPATH}/Xdefaults"
+ln -sf "${MODPATH}/xinitrc" ~/.xinitrc
+ln -sf "${MODPATH}/xinitrc" ~/.xsession
+ln -sf "${MODPATH}/Xmodmap.apple" ~/.xmodmap
+ln -sf "${MODPATH}/Xdefaults" ~/.Xdefaults
