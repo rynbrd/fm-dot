@@ -8,26 +8,31 @@ die() {
 	exit 1
 }
 
-retina=$(xrandr | egrep "^DP-[0-9] connected.*\b${retina_res}\b" | sed 's/ .*//g')
+retina=$(xrandr | egrep "^eDP-[0-9] connected.*\b${retina_res}\b" | sed 's/ .*//g')
 thunderbolt=$(xrandr | egrep "^DP-[0-9] connected\b" | egrep -v "$retina_res" | sed 's/ .*//g')
+hdmi=$(xrandr | egrep "^HDMI-[0-9] connected\b" | egrep -v "$retina_res" | sed 's/ .*//g')
 netbook=$(xrandr | egrep "^LVDS")
 
 if [ -n "$thunderbolt" ]; then
-	test -n "$retina" && xrandr --output "$retina" --off
-	xrandr --output DP-3 --primary
-	xrandr --output DP-4 --auto --left-of DP-3
-	trackpad off
+	xrandr --output "$retina" --auto
+	xrandr --output DP-2 --auto --primary --right-of eDP-1
 	xsetmap poker
 	scale small
-	echo "Onboard peripherals disabled."
+	echo "Thunderbolt enabled. Scale is small."
+elif [ -n "$hdmi" ]; then
+	xrandr --output "$retina" --auto
+	xrandr --output HDMI-1 --auto --primary --right-of eDP-1
+	xsetmap quickfire
+	scale small
+	echo "HDMI enabled. Scale is small"
 elif [ -n "$netbook" ]; then
 	xsetmap acer
 	scale tiny
-	echo "Onboard peripherals enabled."
+	echo "Onboard screen enabled. Scale is tiny."
 else
 	xsetmap apple
 	scale large
-	echo "Onboard peripherals enabled."
+	echo "Onboard screen enabled. Scale is large."
 fi
 
 dconf write /org/gnome/settings-daemon/plugins/keyboard/active false
