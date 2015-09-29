@@ -1,0 +1,16 @@
+#!/bin/bash
+
+match_input() {
+	xinput list --name-only | egrep -q "$1"
+}
+
+cfg_keyboard() {
+	local map=apple
+	if match_input "Poker II"; then
+		map=poker
+	fi
+	echo "set keyboard map to $map"
+	xsetmap $map
+}
+
+cfg_keyboard

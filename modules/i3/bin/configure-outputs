@@ -1,0 +1,70 @@
+#!/bin/bash
+# Configure all connected outputs in a horizontal row with the internal display
+# furthest to the left. The first external display is set as primary output
+# when available. Sets DPI based on resolution of the primary output.
+
+retina_dpi=96
+normal_dpi=165
+
+get_outputs() {
+	xrandr -q | egrep ' connected' | sed 's/ .*//g' | sort
+}
+
+get_internal_output() {
+	get_outputs | egrep "^(eDP|LVDS)" | head -n1
+}
+
+get_primary_output() {
+	xrandr -q | egrep ' connected primary' | sed 's/ .*//g'
+}
+
+get_output_resolution() {
+	xrandr -q | egrep -A8 "^$1 connected" | egrep '^ .*[0-9]( |\*)\+' | head -n1 | sed -r -e 's/^(\s+)//' -e 's/\s+.*//'
+}
+
+is_retina_output() {
+	local res=$(get_output_resolution "$1")
+	local hres=$(echo $res | sed 's/x.*//')
+	local vres=$(echo $res | sed 's/^[^x]\+x//')
+	test $hres -gt 2400 -a $vres -gt 1400
+}
+
+is_external_output() {
+	echo "$1" | egrep -q "^(DP-[0-9]|HDMI-[0-9])$"
+}
+
+cfg_outputs() {
+	local primary=
+	local left=$(get_internal_output)
+	echo "enabling internal output $left"
+	xrandr --output "$left" --auto
+
+	for output in $(get_outputs); do
+		if is_external_output "$output"; then
+			if [ -z $primary ]; then
+				echo "enabling external output $output as primary"
+				xrandr --output "$output" --auto --right-of "$left" --primary
+				primary=$output
+			else
+				echo "enabling external output $output"
+				xrandr --output "$output" --auto --right-of "$left"
+			fi
+			left=$output
+		fi
+	done
+}
+
+cfg_scaling() {
+	local primary=$(get_primary_output)
+	local dpi=
+	if is_retina_output $primary; then
+		dpi=$retina_dpi
+	else
+		dpi=$normal_dpi
+	fi
+	echo "scaling $primary to $dpi"
+	xrandr --dpi "$dpi"
+}
+
+cfg_outputs
+cfg_scaling
