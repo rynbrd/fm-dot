@@ -35,7 +35,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec dmenu_run -i -fn '{{menu_font_face}}:size={{menu_font_size}}'
 
 # lock screen
-bindsym $mod+Ctrl+l exec scrot -e 'convert $f -blur 8x8 $f && i3lock -u -i $f && rm $f'
+bindsym $mod+Ctrl+l exec ~/.i3/bin/lock
 
 # change focused window
 bindsym $mod+h focus left
