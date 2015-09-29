@@ -1,2 +1,2 @@
-#!/bin/env i3run
-exec --no-startup-id /usr/bin/nm-applet
+#!/bin/sh
+/usr/bin/nm-applet
