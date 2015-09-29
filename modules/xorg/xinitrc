@@ -3,4 +3,5 @@ source "${HOME}/.bashrc"
 export PATH
 eval `ssh-agent`
 eval `gpg-agent --daemon`
+redshift-gtk -c "${HOME}/.dot/modules/xorg/redshift" &
 exec /usr/bin/i3
