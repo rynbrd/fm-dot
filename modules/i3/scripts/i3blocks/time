@@ -1,0 +1,2 @@
+#!/bin/sh
+date '+%d %b %l:%M%p' | sed -r -e 's/^0//' -e 's/([APM]+)$/\L\1/'

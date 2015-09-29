@@ -6,3 +6,4 @@ if [ "$MUTE" == "no" ]; then
 else
 	pactl set-sink-mute "$SINK" 0
 fi
+$(dirname $0)/i3blocks-signal 10

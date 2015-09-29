@@ -1,0 +1,2 @@
+#!/bin/bash
+kill -s SIGRTMIN+$1 $(ps ax | egrep 'bin/[i]3blocks\s' | awk '{print $1}')

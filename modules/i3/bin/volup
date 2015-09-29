@@ -1,3 +1,4 @@
 #!/bin/bash -u
 SINK=$(pactl info | grep 'Default Sink' | cut -d' ' -f3)
 pactl set-sink-volume "$SINK" '+5%' 
+$(dirname $0)/i3blocks-signal 10
