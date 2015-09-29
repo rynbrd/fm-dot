@@ -1,0 +1,2 @@
+#!/bin/env i3run
+exec ~/.i3/bin/autoperif
