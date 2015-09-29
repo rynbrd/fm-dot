@@ -2,9 +2,9 @@
 i3_font_face=Inconsolata-g for Powerline
 i3_font_size=10
 menu_font_face=Inconsolata-g for Powerline
-menu_font_size=13
-term_font_face=Inconsolata-g\ for\ Powerline
-term_font_size=11
+menu_font_size=12
+term_font_face=Inconsolata-g
+term_font_size=10
 
 [makara]
 i3_font_size=8
