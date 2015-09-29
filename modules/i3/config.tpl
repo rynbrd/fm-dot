@@ -11,7 +11,7 @@
 
 set $mod Mod4
 
-smart_gaps on
+smart_borders on
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
