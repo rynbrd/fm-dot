@@ -4,6 +4,7 @@
 .netrwhist
 Xdefaults
 __pycache__
+i3/bin
 i3/config
 i3/start.log
 irssi/config
