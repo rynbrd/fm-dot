@@ -1,9 +1,0 @@
-#!/bin/bash
-# Install irssi configuration.
-IRSSIPATH="${HOME}/.irssi"
-configurate "${MODPATH}/config.tpl" > "${MODPATH}/config"
-chmod 600 "${MODPATH}/config"
-if [[ "$IRSSIPATH" != "$MODPATH" ]]; then
-	rm -rf "$IRSSIPATH"
-	ln -sf "$MODPATH" "$IRSSIPATH"
-fi
