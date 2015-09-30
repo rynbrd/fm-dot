@@ -3,7 +3,7 @@ source "${HOME}/.bashrc"
 export PATH
 eval `ssh-agent`
 eval `gpg-agent --daemon`
-"${HOME}/.i3/bin/configure-outputs" > "$HOME/.xinit.log"
-"${HOME}/.i3/bin/configure-inputs" >> "$HOME/.xinit.log"
-redshift-gtk -c "${HOME}/.dot/modules/xorg/redshift" &
+"${HOME}/.dot/bin/configure-outputs" > "$HOME/.xinit.log"
+"${HOME}/.dot/bin/configure-inputs" >> "$HOME/.xinit.log"
+redshift-gtk -c "${HOME}/.dot/xorg/redshift" &
 exec /usr/bin/i3
