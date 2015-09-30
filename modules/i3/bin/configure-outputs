@@ -36,22 +36,29 @@ is_external_output() {
 cfg_outputs() {
 	local primary=
 	local left=$(get_internal_output)
-	echo "enabling internal output $left"
-	xrandr --output "$left" --auto
-
-	for output in $(get_outputs); do
-		if is_external_output "$output"; then
-			if [ -z $primary ]; then
-				echo "enabling external output $output as primary"
-				xrandr --output "$output" --auto --right-of "$left" --primary
-				primary=$output
-			else
-				echo "enabling external output $output"
-				xrandr --output "$output" --auto --right-of "$left"
-			fi
-			left=$output
+	local outputs=$(get_outputs)
+	if [ $(echo $outputs | wc -l) -eq 1 ]; then
+		echo "enabling output $outputs as primary"
+		xrandr --output "$outputs" --auto --primary
+	else
+		if [ -n "$left" ]; then
+			echo "enabling internal output $left"
+			xrandr --output "$left" --auto
 		fi
-	done
+		for output in $(get_outputs); do
+			if is_external_output "$output"; then
+				if [ -z $primary ]; then
+					echo "enabling external output $output as primary"
+					xrandr --output "$output" --auto --right-of "$left" --primary
+					primary=$output
+				else
+					echo "enabling external output $output"
+					xrandr --output "$output" --auto --right-of "$left"
+				fi
+				left=$output
+			fi
+		done
+	fi
 }
 
 cfg_scaling() {
