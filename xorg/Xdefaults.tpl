@@ -13,7 +13,7 @@ URxvt*pointerBlank: true
 URxvt*pointerBlankDelay: 99999999
 URxvt*secondaryWheel: true
 URxvt*perl-ext-common: default,matcher
-URxvt*urlLauncher: /usr/bin/google-chrome-unstable
+URxvt*urlLauncher: /usr/bin/google-chrome-stable
 URxvt*colorUL: #86a2be
 URxvt.keysym.M-Up:    \033[1;3A
 URxvt.keysym.M-Down:  \033[1;3B
