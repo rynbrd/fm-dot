@@ -2,5 +2,5 @@
 # Install fonts.
 mkdir -p ~/.fontconfig ~/.cache/fontconfig
 rm -rf ~/.fonts
-ln -sf "$MODPATH/fonts" ~/.fonts
+ln -sf "$MODPATH" ~/.fonts
 fc-cache -vf ~/.fonts
