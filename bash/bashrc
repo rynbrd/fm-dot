@@ -4,7 +4,7 @@ umask 0027
 
 DOT="${HOME}/.dot"
 MODS="${DOT}"
-PATH="${DOT}/bin:${DOT}/bash/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
+PATH="${DOT}/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
 PS1='\[\033[01;32m\]\w \[\033[01;34m\]\$\[\033[00m\] '
 GPG_TTY=`tty`
 
@@ -25,18 +25,8 @@ screen*|xterm*|rxvt*)
 	;;
 esac
 
-source_module() {
-	local MODPATH
-	local MODRC
-	MODPATH="${MODS}/${1}"
-	MODRC="${MODPATH}/bashrc"
-	if [[ "$1" != "bash" ]] && [[ -e "$MODRC" ]]; then
-		source $MODRC
-	fi
-}
-
-for MOD in $(ls "$MODS"); do
-	source_module "$MOD"
+for include in $(ls "$DOT/bash/include"); do
+	. "$DOT/bash/include/$include"
 done
 
 [[ -f ~/Work/.bashrc ]] && source ~/Work/.bashrc

@@ -1,5 +1,5 @@
 GOPATH="$HOME/.go"
-PATH="$PATH:$MODPATH/bin:$GOPATH/bin"
+PATH="$PATH:$GOPATH/bin"
 alias gofmt="gofmt -s"
 
 export GOPATH
