@@ -2,7 +2,7 @@
 # Install all the dotfiles.
 
 DOT=$(readlink -f "$(dirname $0)")
-MODS="${DOT}/modules"
+MODS="${DOT}"
 
 git submodule update --init 1>&2
 

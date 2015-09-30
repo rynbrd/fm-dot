@@ -1,6 +1,0 @@
-__pycache__
-*.pyc
-*.swp
-/config
-/lock.png
-/start.log

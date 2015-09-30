@@ -3,8 +3,8 @@
 umask 0027
 
 DOT="${HOME}/.dot"
-MODS="${DOT}/modules"
-PATH="${DOT}/bin:${DOT}/modules/bash/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
+MODS="${DOT}"
+PATH="${DOT}/bin:${DOT}/bash/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
 PS1='\[\033[01;32m\]\w \[\033[01;34m\]\$\[\033[00m\] '
 GPG_TTY=`tty`
 

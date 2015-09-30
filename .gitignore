@@ -1,4 +1,10 @@
-__pycache__
 *.pyc
+*.sw?
 *.swp
+.netrwhist
+Xdefaults
+__pycache__
+i3/config
+i3/start.log
+irssi/config
 passwords

@@ -1,9 +1,9 @@
-[submodule "modules/vim/bundle/command-t"]
-	path = modules/vim/bundle/command-t
+[submodule "vim/bundle/command-t"]
+	path = vim/bundle/command-t
 	url = git://github.com/wincent/command-t.git
-[submodule "modules/vim/bundle/vim-airline"]
-	path = modules/vim/bundle/vim-airline
+[submodule "vim/bundle/vim-airline"]
+	path = vim/bundle/vim-airline
 	url = git://github.com/bling/vim-airline
-[submodule "modules/vim/bundle/vim-gitgutter"]
-	path = modules/vim/bundle/vim-gitgutter
+[submodule "vim/bundle/vim-gitgutter"]
+	path = vim/bundle/vim-gitgutter
 	url = git://github.com/airblade/vim-gitgutter
