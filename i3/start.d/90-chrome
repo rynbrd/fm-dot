@@ -1,2 +1,0 @@
-#!/bin/sh
-~/.go/bin/keysocket-server &> /dev/null &
