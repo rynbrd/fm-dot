@@ -1,12 +1,17 @@
 #!/bin/bash
 get_primary_output() {
-	xrandr -q | egrep ' connected primary' | sed 's/ .*//g'
+	local primary=$(xrandr -q | egrep ' connected primary' | sed 's/ .*//g')
+	if [ -z $primary ]; then
+		primary=$(xrandr -q | egrep ' connected' | sed 's/ .*//g' | head -n1)
+	fi
+	echo $primary
 }
 
 cfg_i3() {
 	local primary=$(get_primary_output)
 	echo "put i3 bar on $primary"
 	sed -i -r -e "s/output (eDP|DP|HDMI|LVDS)-?[0-9]+/output $primary/" "$HOME/.i3/config"
+	sed -i -r -e "s/output (((eDP|DP|HDMI|LVDS)-?[0-9]+)|())$/output $primary/" "$HOME/.i3/config"
 	i3-msg restart
 }
 

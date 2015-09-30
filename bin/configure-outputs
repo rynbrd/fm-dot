@@ -37,7 +37,7 @@ cfg_outputs() {
 	local primary=
 	local left=$(get_internal_output)
 	local outputs=$(get_outputs)
-	if [ $(echo $outputs | wc -l) -eq 1 ]; then
+	if [ $(echo "$outputs" | wc -l) -eq 1 ]; then
 		echo "enabling output $outputs as primary"
 		xrandr --output "$outputs" --auto --primary
 	else
