@@ -1,4 +1,5 @@
 #!/bin/bash
-map="$(cd "$(dirname "$0")"; pwd)/../xorg/Xmodmap.${1-}"
+test -z "$1" && echo "usage: xsetmap MAP" && exit 1
+map="$(cd "$(dirname "$0")"; pwd)/../xmodmap/${1-}"
 [ ! -e "$map" ] && echo "xmodmap file not found: $map" && exit 1
 xmodmap "$map"
