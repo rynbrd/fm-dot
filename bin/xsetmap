@@ -1,0 +1,4 @@
+#!/bin/bash
+map="$(cd "$(dirname "$0")"; pwd)/../xorg/Xmodmap.${1-}"
+[ ! -e "$map" ] && echo "xmodmap file not found: $map" && exit 1
+xmodmap "$map"

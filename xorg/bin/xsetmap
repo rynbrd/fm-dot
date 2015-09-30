@@ -1,8 +1,0 @@
-#!/bin/bash -u
-
-here="$(cd "$(dirname "$0")"; pwd)"
-maps="$(cd "$here/.."; pwd)"
-map="${maps}/Xmodmap.${1-}"
-
-[ ! -e "$map" ] && echo "xmodmap file not found: $map" && exit 1
-xmodmap "$map"
