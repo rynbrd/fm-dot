@@ -8,4 +8,4 @@ i3/bin
 i3/config
 i3/start.log
 irssi/config
-passwords
+passwords.ini
