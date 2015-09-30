@@ -36,7 +36,7 @@ class Configurator(ConfigGenerator):
         """Initialize object with correct context and template paths."""
         base = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
         files = [os.path.join(base, 'config.ini')]
-        passwords = os.path.join(base, 'passwords')
+        passwords = os.path.join(base, 'passwords.ini')
         if os.path.exists(passwords):
             files.append(passwords)
         super(self.__class__, self).__init__(files)
