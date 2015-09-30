@@ -4,5 +4,3 @@ ln -sf "${MODPATH}/bashrc" ~/.bashrc
 ln -sf "${MODPATH}/bash_logout" ~/.bash_logout
 ln -sf "${MODPATH}/bash_profile" ~/.bash_profile
 ln -sf "${MODPATH}/inputrc" ~/.inputrc
-
-echo "source ~/.bashrc"
