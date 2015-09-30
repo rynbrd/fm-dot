@@ -9,4 +9,4 @@ if [[ "$I3PATH" != "$MODPATH" ]]; then
 	rm -rf "$I3PATH"
 	ln -sf "$MODPATH" "$I3PATH"
 fi
-ln -sf "$DOTPATH/bin" "$I3PATH/bin"
+test -e "$I3PATH/bin" || ln -sf "$DOTPATH/bin" "$I3PATH/bin"
