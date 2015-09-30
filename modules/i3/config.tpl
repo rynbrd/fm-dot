@@ -149,6 +149,7 @@ bindsym $mod+r mode "resize"
 bar {
         status_command ~/.i3/bin/i3blocks -c ~/.i3/i3blocks.conf
         position top
+        output eDP-1
 }
 
 # volume controls
