@@ -1,15 +1,14 @@
 #!/bin/bash
 # Install all the dotfiles.
-
-DOT=$(readlink -f "$(dirname $0)")
-MODS="${DOT}"
-
 git submodule update --init 1>&2
 
-PATH="${DOT}/bin:${PATH}"
+DOT=$(cd "$(dirname "$0")"; pwd)
+export PATH="${DOT}/bin:${PATH}"
 
-for MOD in $(ls "$MODS"); do
-	MODPATH="${MODS}/${MOD}"
-	MODINSTALL="${MODPATH}/install"
-	test -e "$MODINSTALL" && source $MODINSTALL
+for MOD in $(ls "$DOT"); do
+	INSTALL="$DOT/$MOD/install"
+	if [ -x  "$INSTALL" ]; then
+		echo "=== install $MOD"
+		$INSTALL
+	fi
 done

@@ -1,5 +1,7 @@
 #!/bin/bash
 # Install vim configuration.
+MODPATH=$(cd "$(dirname "$0")"; pwd)
+
 rm -f ~/.vimrc
 rm -f ~/.gvimrc
 

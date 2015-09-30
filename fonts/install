@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install fonts.
+MODPATH=$(cd "$(dirname "$0")"; pwd)
 mkdir -p ~/.fontconfig ~/.cache/fontconfig
 rm -rf ~/.fonts
 ln -sf "$MODPATH" ~/.fonts

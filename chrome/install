@@ -1,3 +1,5 @@
+#!/bin/bash
+MODPATH=$(cd "$(dirname "$0")"; pwd)
 if ! which keysocket-server > /dev/null; then
     "$MODPATH/build"
 fi

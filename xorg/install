@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install local xorg configuration.
+MODPATH=$(cd "$(dirname "$0")"; pwd)
 configurate "${MODPATH}/Xdefaults.tpl" > "${MODPATH}/Xdefaults"
 ln -sf "${MODPATH}/xinitrc" ~/.xinitrc
 ln -sf "${MODPATH}/xinitrc" ~/.xsession
