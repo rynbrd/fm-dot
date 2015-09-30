@@ -1,8 +1,7 @@
 #!/bin/bash
 
-LOCKIMG=$(grep i3lock "${HOME}/.i3/config" | sed -r -e 's/.*-i\s+(\S+)\s.*/\1/g')
-LOCK="i3lock -i $LOCKIMG -t"
-BLANK="$LOCK -d"
+LOCK=~/.i3/bin/lock
+BLANK="i3lock -d"
 
 case $1 in
 suspend)
