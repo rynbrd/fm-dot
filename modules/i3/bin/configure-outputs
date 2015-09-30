@@ -3,8 +3,8 @@
 # furthest to the left. The first external display is set as primary output
 # when available. Sets DPI based on resolution of the primary output.
 
-retina_dpi=96
-normal_dpi=165
+retina_dpi=134
+normal_dpi=96
 
 get_outputs() {
 	xrandr -q | egrep ' connected' | sed 's/ .*//g' | sort
@@ -26,7 +26,7 @@ is_retina_output() {
 	local res=$(get_output_resolution "$1")
 	local hres=$(echo $res | sed 's/x.*//')
 	local vres=$(echo $res | sed 's/^[^x]\+x//')
-	test $hres -gt 2400 -a $vres -gt 1400
+	test $hres -ge 2880 -a $vres -ge 1800
 }
 
 is_external_output() {
