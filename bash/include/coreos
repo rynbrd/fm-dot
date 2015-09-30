@@ -1,1 +1,2 @@
+#!/bin/bash
 alias fleetctl="fleetctl -strict-host-key-checking=false"

@@ -1,0 +1,2 @@
+#!/bin/bash
+GPG_TTY=`tty`

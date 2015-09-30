@@ -1,0 +1,18 @@
+#!/bin/bash
+# configure terminal
+case "$TERM" in 
+screen*|xterm*|rxvt*)
+	PROMPT_COMMAND='echo -ne "\033]0;${PWD/#$HOME/~} \$\007"'
+
+	set_title() {
+		case "$BASH_COMMAND" in
+		*\033]0*)
+			;;
+		*)
+			echo -ne "\033]0;${PWD/#$HOME/~} \$ ${BASH_COMMAND}\007"
+			;;
+		esac
+	}
+	trap set_title DEBUG
+	;;
+esac

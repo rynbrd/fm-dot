@@ -1,1 +1,2 @@
-export AWS_CREDENTIAL_FILE=~/.aws/credentials.elb
+#!/bin/bash
+export AWS_CREDENTIAL_FILE=~/.aws/credentials
