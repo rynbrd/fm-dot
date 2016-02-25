@@ -60,6 +60,7 @@ bindsym $mod+space focus mode_toggle
 # force some windows to always float
 for_window [class="MPlayer"] floating enable
 for_window [class="VirtualBox"] floating enable
+for_window [title="Authy"] floating enable
 
 # focus the parent container
 bindsym $mod+a focus parent
