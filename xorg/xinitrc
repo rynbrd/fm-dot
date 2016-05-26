@@ -6,4 +6,5 @@ eval `gpg-agent --daemon`
 "${HOME}/.dot/bin/configure-outputs" > "$HOME/.xinit.log"
 "${HOME}/.dot/bin/configure-inputs" >> "$HOME/.xinit.log"
 redshift-gtk -c "${HOME}/.dot/xorg/redshift" &
+urxvtd -q -f -o
 exec /usr/bin/i3

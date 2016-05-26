@@ -1,21 +1,19 @@
 set $mod Mod4
 
-smart_borders on
-
 # font for bar and window titles
-font xft:{{i3_font_face}} {{i3_font_size}}
+font xft:Inconsolata-g for Powerline 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec /usr/bin/urxvtc -fn 'xft:Inconsolata\-g for Powerline:style=g:size=10:antialias=true' -fb 'xft:Inconsolata\-g for Powerline:style-g:size=10:antialias=true:bold'
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run -i -fn '{{menu_font_face}}:size={{menu_font_size}}'
+bindsym $mod+d exec dmenu_run -i -fn 'Inconsolata-g for Powerline:size=12'
 
 # lock screen
 bindsym $mod+Ctrl+l exec ~/.i3/bin/lock
@@ -152,13 +150,15 @@ bindsym $mod+r mode "resize"
 bar {
         status_command ~/.i3/bin/i3blocks -c ~/.i3/i3blocks.conf
         position top
-        output eDP-1
+        output eDP1
 }
 
 # volume controls
 bindsym XF86AudioMute exec ~/.i3/bin/volmute
 bindsym XF86AudioLowerVolume exec ~/.i3/bin/voldown
 bindsym XF86AudioRaiseVolume exec ~/.i3/bin/volup
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 # run startup scripts
 exec rundir ~/.i3/start.d &> ~/.i3/start.log
