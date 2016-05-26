@@ -26,7 +26,7 @@ is_retina_output() {
 	local res=$(get_output_resolution "$1")
 	local hres=$(echo $res | sed 's/x.*//')
 	local vres=$(echo $res | sed 's/^[^x]\+x//')
-	test $hres -ge 2880 -a $vres -ge 1800
+	test $hres -ge 2560 -a $vres -ge 1440
 }
 
 is_external_output() {
