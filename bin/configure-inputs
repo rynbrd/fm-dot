@@ -5,9 +5,9 @@ match_input() {
 }
 
 cfg_keyboard() {
-	local map=apple
+	local map=standard
 	if match_input "Poker II"; then
-		map=poker
+		map=apple
 	fi
 	echo "set keyboard map to $map"
 	xsetmap $map
