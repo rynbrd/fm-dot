@@ -3,8 +3,10 @@
 # furthest to the left. The first external display is set as primary output
 # when available. Sets DPI based on resolution of the primary output.
 
-retina_dpi=134
+hidpi_dpi=134
 normal_dpi=96
+
+hidpi_threshold=200
 
 get_outputs() {
 	xrandr -q | egrep ' connected' | sed 's/ .*//g' | sort
@@ -19,18 +21,19 @@ get_primary_output() {
 }
 
 get_output_resolution() {
-	xrandr -q | egrep -A8 "^$1 connected" | egrep '^ .*[0-9]( |\*)\+' | head -n1 | sed -r -e 's/^(\s+)//' -e 's/\s+.*//'
+	xrandr -q | egrep "^$1 " | sed -r -e 's/.*connected( primary)?|\(.*\)|mm|x|\+[0-9]+/ /g' -e 's/^\s+//' -e 's/\s+/ /g'
 }
 
-is_retina_output() {
-	local res=$(get_output_resolution "$1")
-	local hres=$(echo $res | sed 's/x.*//')
-	local vres=$(echo $res | sed 's/^[^x]\+x//')
-	test $hres -ge 2560 -a $vres -ge 1440
+get_output_dpi() {
+	get_output_resolution "$1" | awk '{printf "sqrt(%d^2+%d^2) / (sqrt(%d^2+%d^2)/25.4)\n", $1, $2, $3, $4}' | bc
+}
+
+is_output_hidpi() {
+	test $(get_output_dpi "$1") -ge $hidpi_threshold
 }
 
 is_external_output() {
-	echo "$1" | egrep -q "^(DP-[0-9]|HDMI-[0-9])$"
+	echo "$1" | egrep -q "^(DP-?[0-9]|HDMI-?[0-9])$"
 }
 
 cfg_outputs() {
@@ -64,8 +67,8 @@ cfg_outputs() {
 cfg_scaling() {
 	local primary=$(get_primary_output)
 	local dpi=
-	if is_retina_output $primary; then
-		dpi=$retina_dpi
+	if is_output_hidpi $primary; then
+		dpi=$hidpi_dpi
 	else
 		dpi=$normal_dpi
 	fi
