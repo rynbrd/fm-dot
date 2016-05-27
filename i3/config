@@ -1,19 +1,20 @@
 set $mod Mod4
 
 # font for bar and window titles
-font xft:Inconsolata-g for Powerline 10
+font xft:DejaVu Sans 11
+#font xft:Inconsolata-g for Powerline 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec /usr/bin/urxvtc -fn 'xft:Inconsolata\-g for Powerline:style=g:size=10:antialias=true' -fb 'xft:Inconsolata\-g for Powerline:style-g:size=10:antialias=true:bold'
+bindsym $mod+Return exec /usr/bin/urxvtc
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run -i -fn 'Inconsolata-g for Powerline:size=12'
+bindsym $mod+d exec dmenu_run -i -fn 'Fantasque Sans Mono:size=14:antialias=true'
 
 # lock screen
 bindsym $mod+Ctrl+l exec ~/.i3/bin/lock
