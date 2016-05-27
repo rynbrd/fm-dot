@@ -6,7 +6,7 @@ match_input() {
 
 cfg_keyboard() {
 	local map=standard
-	if match_input "Poker II"; then
+	if match_input "Apple"; then
 		map=apple
 	fi
 	echo "set keyboard map to $map"
