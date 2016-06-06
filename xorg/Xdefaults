@@ -34,7 +34,7 @@ URxvt.keysym.C-Home:  \033[1;5H
 
 
 !  >> Configure Appearance <<
-!URxvt*termName: xterm-256color
+URxvt*termName: xterm-256color
 URxvt*background: #1e1e1e
 URxvt*foreground: #eeeeee
 URxvt*font:     xft:Fantasque Sans Mono:style=Regular:size=11:antialias=true
