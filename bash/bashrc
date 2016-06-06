@@ -6,6 +6,7 @@ DOT="${HOME}/.dot"
 PATH="${DOT}/bin:~/.virtualenv27/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
 PS1='\[\033[01;32m\]\w \[\033[01;34m\]\$\[\033[00m\] '
 EDITOR="/usr/bin/vim"
+GPG_TTY=$(tty)
 
 # include snippets
 for include in $(ls "$DOT/bash/include"); do
@@ -23,4 +24,4 @@ alias ls="ls --color"
 stty start ""
 stty stop ""
 
-export PATH EDITOR
+export PATH EDITOR GPG_TTY
