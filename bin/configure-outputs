@@ -33,7 +33,7 @@ is_output_hidpi() {
 }
 
 is_external_output() {
-	echo "$1" | egrep -q "^(DP-?[0-9]|HDMI-?[0-9])$"
+	echo "$1" | egrep -q "^(DP([0-9])?-?[0-9]|HDMI-?[0-9])$"
 }
 
 cfg_outputs() {
