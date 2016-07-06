@@ -76,5 +76,13 @@ cfg_scaling() {
 	xrandr --dpi "$dpi"
 }
 
+cfg_brightness() {
+	local primary=$(get_primary_output)
+	if is_external_output "$primary"; then
+		xbacklight -set 100
+	fi
+}
+
 cfg_outputs
 cfg_scaling
+cfg_brightness
