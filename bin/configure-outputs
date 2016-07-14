@@ -8,12 +8,16 @@ normal_dpi=96
 
 hidpi_threshold=200
 
-get_outputs() {
+get_connected_outputs() {
 	xrandr -q | egrep ' connected' | sed 's/ .*//g' | sort
 }
 
+get_disconnected_outputs() {
+	xrandr -q | egrep ' disconnected' | sed 's/ .*//g' | sort
+}
+
 get_internal_output() {
-	get_outputs | egrep "^(eDP|LVDS)" | head -n1
+	get_connected_outputs | egrep "^(eDP|LVDS)" | head -n1
 }
 
 get_primary_output() {
@@ -39,7 +43,7 @@ is_external_output() {
 cfg_outputs() {
 	local primary=
 	local left=$(get_internal_output)
-	local outputs=$(get_outputs)
+	local outputs=$(get_connected_outputs)
 	if [ $(echo "$outputs" | wc -l) -eq 1 ]; then
 		echo "enabling output $outputs as primary"
 		xrandr --output "$outputs" --auto --primary
@@ -48,7 +52,7 @@ cfg_outputs() {
 			echo "enabling internal output $left"
 			xrandr --output "$left" --auto
 		fi
-		for output in $(get_outputs); do
+		for output in $(get_connected_outputs); do
 			if is_external_output "$output"; then
 				if [ -z $primary ]; then
 					echo "enabling external output $output as primary"
@@ -62,6 +66,10 @@ cfg_outputs() {
 			fi
 		done
 	fi
+	for output in $(get_disconnected_outputs); do
+		echo "disabling output $output"
+		xrandr --output "$output" --off
+	done
 }
 
 cfg_scaling() {
