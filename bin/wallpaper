@@ -1,0 +1,2 @@
+#!/bin/sh
+feh --no-fehbg --image-bg black --bg-fill ~/.dot/background.jpg

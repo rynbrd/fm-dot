@@ -1,2 +1,0 @@
-#!/bin/sh
-feh --no-fehbg --image-bg black --bg-fill ~/.i3/background.jpg
