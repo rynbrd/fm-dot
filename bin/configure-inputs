@@ -13,4 +13,9 @@ cfg_keyboard() {
 	xsetmap $map
 }
 
+cfg_mouse() {
+	xinput set-prop "PS/2 Generic Mouse" "Device Accel Constant Deceleration" 0.5
+}
+
 cfg_keyboard
+cfg_mouse
