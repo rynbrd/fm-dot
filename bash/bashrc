@@ -8,6 +8,11 @@ PS1='\[\033[01;32m\]\w \[\033[01;34m\]\$\[\033[00m\] '
 EDITOR="/usr/bin/vim"
 GPG_TTY=$(tty)
 
+if [[ -d ~/.virtualenv27 ]]; then
+	VIRTUAL_ENV_DISABLE_PROMPT=1
+	. ~/.virtualenv27/bin/activate 
+fi
+
 # include snippets
 for include in $(ls "$DOT/bash/include"); do
 	. "$DOT/bash/include/$include"
