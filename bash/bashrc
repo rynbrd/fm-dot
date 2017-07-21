@@ -30,3 +30,6 @@ stty start ""
 stty stop ""
 
 export PATH EDITOR GPG_TTY
+
+# added by travis gem
+[ -f /home/sadpengu/.travis/travis.sh ] && source /home/sadpengu/.travis/travis.sh
