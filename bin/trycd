@@ -21,7 +21,7 @@ cd_and_exit() {
 }
 
 glob_and_exit() {
-	dir=$(find "${1-}" -maxdepth 1 -name "${2-}" | sort | head -n1)
+	dir=$(find "${1-}" -maxdepth 1 -iname "${2-}" | sort | head -n1)
 	test -n "$dir" && echo "cd '$dir'" && exit 0
 }
 
