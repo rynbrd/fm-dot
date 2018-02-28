@@ -14,7 +14,3 @@ if [[ "${HOME}/.vim" != "$MODPATH" ]]; then
 	rm -rf ~/.vim
 	ln -sf "$MODPATH" ~/.vim
 fi
-
-# build command-t ruby module
-cd ~/.vim/bundle/command-t/ruby/command-t
-ruby extconf.rb
