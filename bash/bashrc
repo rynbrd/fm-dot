@@ -5,13 +5,6 @@ umask 0027
 DOT="${HOME}/.dot"
 PATH="${DOT}/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
 PS1='\[\033[01;32m\]\w \[\033[01;34m\]\$\[\033[00m\] '
-EDITOR="/usr/bin/vim"
-GPG_TTY=$(tty)
-
-if [[ -d ~/.virtualenv27 ]]; then
-	VIRTUAL_ENV_DISABLE_PROMPT=1
-	. ~/.virtualenv27/bin/activate 
-fi
 
 # include snippets
 for include in $(ls "$DOT/bash/include"); do
@@ -22,14 +15,8 @@ done
 
 set -o vi
 bind -m vi-insert "\C-l":clear-screen
-alias grep="grep -s --color"
-alias egrep="egrep --color"
-alias ls="ls --color"
 
 stty start ""
 stty stop ""
 
-export PATH EDITOR GPG_TTY
-
-# added by travis gem
-[ -f /home/sadpengu/.travis/travis.sh ] && source /home/sadpengu/.travis/travis.sh
+export PATH

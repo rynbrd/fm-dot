@@ -1,0 +1,4 @@
+#!/bin/bash
+alias grep="grep -s --color"
+alias egrep="egrep --color"
+alias ls="ls --color"
