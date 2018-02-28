@@ -9,10 +9,3 @@
     pr = pull --rebase
 [diff]
     tool = vimdiff
-[url "git@github.com:"]
-	insteadOf = https://github.com/
-[gitreview]
-	scheme = https
-	port = 443
-	username = BlueDragonX
-	username = BlueDragonX
