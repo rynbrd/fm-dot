@@ -1,6 +1,6 @@
 #!/bin/bash
 source "${HOME}/.bashrc"
-export PATH
+
 eval `ssh-agent`
 eval `gpg-agent --daemon`
 "${HOME}/.dot/bin/configure-outputs" > "$HOME/.xinit.log"
