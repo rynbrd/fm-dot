@@ -3,5 +3,5 @@
 MODPATH=$(cd "$(dirname "$0")"; pwd)
 ln -sf "${MODPATH}/xinitrc" ~/.xinitrc
 ln -sf "${MODPATH}/xinitrc" ~/.xsession
-ln -sf "${MODPATH}/Xmodmap.apple" ~/.xmodmap
+ln -sf "${MODPATH}/Xmodmap.standard" ~/.xmodmap
 ln -sf "${MODPATH}/Xdefaults" ~/.Xdefaults
