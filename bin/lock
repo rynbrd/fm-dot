@@ -1,2 +1,0 @@
-#!/bin/sh
-exec scrot -e 'convert $f -blur 8x8 $f && i3lock -u -i $f && rm $f'

@@ -1,0 +1,29 @@
+#!/bin/bash
+defaultlocker="/usr/bin/i3lock -n"
+rcfile=.xlockrc
+
+lock_with_xlockrc() {
+	local home=$(getent passwd "$1" | cut -d: -f6)
+	local rcpath="$home/$rcfile"
+	test -x "$rcpath" && sudo -u "$1" HOME="$home" DISPLAY="$2" "$rcpath"
+}
+
+lock_with_default() {
+	sudo -u "$1" DISPLAY="$2" $defaultlocker
+}
+
+get_user_display() {
+	who | egrep "[^ ]+ tty.*\\(:[0-9]+\\)\$" | sed -r -e 's/^([^ ]+).*\((:[0-9]+)\)$/\1 \2/g' | head -n1
+}
+
+lock_user_display() {
+	local userdisplay=$(get_user_display)
+	local user="${userdisplay% *}"
+	local display="${userdisplay#* }"
+	echo "lock USER=$user DISPLAY=$display"
+
+	lock_with_xlockrc "$user" "$display" || \
+		lock_with_default "$user" "$display"
+}
+
+lock_user_display

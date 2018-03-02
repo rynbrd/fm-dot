@@ -17,7 +17,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec dmenu_run -i -fn 'Fantasque Sans Mono:size=14:antialias=true'
 
 # lock screen
-bindsym $mod+Ctrl+l exec ~/.i3/bin/lock
+bindsym $mod+Ctrl+l exec ~/.i3/bin/xlock
 
 # change focused window
 bindsym $mod+h focus left

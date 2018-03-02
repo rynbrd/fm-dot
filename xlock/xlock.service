@@ -1,0 +1,10 @@
+[Unit]
+Description=Lock Screen
+Before=sleep.target
+
+[Install]
+WantedBy=sleep.target
+
+[Service]
+ExecStart=/usr/bin/xlock
+ExecStartPost=/bin/sleep 0.5
