@@ -1,0 +1,24 @@
+#!/bin/bash -u
+SINK=$(pactl info | grep 'Default Sink' | cut -d' ' -f3)
+SINKN=$(pactl list short sinks | grep "$SINK" | cut -f1)
+
+is_mute() {
+	local mute=$(pactl list sinks | grep '^[[:space:]]Mute:' | \
+		head -n $(( $SINKN + 1 )) | \
+		tail -n 1 | \
+		cut -d' ' -f2)
+	[[ "$mute" == "yes" ]]
+}
+
+get_vol_pct() {
+	pactl list sinks | grep '^[[:space:]]Volume:' | \
+		head -n $(( $SINKN + 1 )) | \
+		tail -n 1 | \
+		sed -e 's,.* \([0-9][0-9]*\)%.*,\1%,'
+}
+
+if is_mute; then
+	echo MUTE
+else
+	get_vol_pct
+fi
