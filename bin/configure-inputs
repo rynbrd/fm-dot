@@ -10,7 +10,7 @@ cfg_keyboard() {
 		map=apple
 	fi
 	echo "set keyboard map to $map"
-	xsetmap $map
+	~/.dot/bin/xsetmap $map
 }
 
 cfg_mouse() {

@@ -15,4 +15,4 @@ cfg_i3() {
 }
 
 cfg_i3
-wallpaper
+~/.i3/bin/wallpaper
