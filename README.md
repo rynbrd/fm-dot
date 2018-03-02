@@ -12,6 +12,10 @@ Execute and source the output of the install script:
     cd .dot
     ./install
 
+To enable a background image:
+
+    cp MYIMAGE.png .dot/background.png
+
 License
 -------
 This software project is licensed under the BSD-derived license and is

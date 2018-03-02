@@ -3,6 +3,8 @@
 *.swp
 .netrwhist
 __pycache__
+background.jpg
+background.png
 i3/bin
 i3/start.log
 irssi/config
