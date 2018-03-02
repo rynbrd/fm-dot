@@ -1,5 +1,8 @@
-" packages
+set nocompatible
+
+" plugins
 execute pathogen#infect()
+filetype plugin indent on
 
 " airline
 let g:airline_powerline_fonts = 1
@@ -50,8 +53,14 @@ map <Right> <Nop>
 " color settings
 set t_Co=256
 colorscheme fatedmariner
+syntax on
 
 " other settings
 set nobackup
 set encoding=utf-8
 set laststatus=2
+
+" source work settings
+if filereadable(".work/vimrc")
+    source ~/.work/vimrc
+endif
