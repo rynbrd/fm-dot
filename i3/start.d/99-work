@@ -1,0 +1,3 @@
+#!/bin/sh
+START=~/.work/start.d
+test -d "$START" && ~/.i3/bin/rundir "$START"

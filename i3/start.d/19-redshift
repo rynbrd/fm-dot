@@ -1,0 +1,2 @@
+#!/bin/sh
+redshift-gtk -c "${HOME}/.dot/xorg/redshift" &
