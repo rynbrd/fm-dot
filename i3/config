@@ -1,20 +1,19 @@
 set $mod Mod4
 
 # font for bar and window titles
-font xft:DejaVu Sans 11
-#font xft:Inconsolata-g for Powerline 10
+font xft:Fantasque Sans Mono 11
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec /usr/bin/urxvtc
+bindsym $mod+Return exec /usr/bin/urxvt
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run -i -fn 'Fantasque Sans Mono:size=14:antialias=true'
+bindsym $mod+d exec dmenu_run -i -fn 'Fantasque Sans Mono:size=13:antialias=true'
 
 # lock screen
 bindsym $mod+Ctrl+l exec ~/.i3/bin/xlock
@@ -151,7 +150,7 @@ bindsym $mod+r mode "resize"
 bar {
         status_command ~/.i3/bin/i3blocks -c ~/.i3/i3blocks.conf
         position top
-        output DP2-2
+        output eDP-1
 }
 
 # volume controls
@@ -162,4 +161,4 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 # run startup scripts
-exec rundir ~/.i3/start.d &> ~/.i3/start.log
+exec ~/.i3/bin/rundir ~/.i3/start.d &> ~/.i3/start.log
