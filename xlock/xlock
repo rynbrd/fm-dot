@@ -1,5 +1,4 @@
 #!/bin/bash
-defaultlocker="/usr/bin/i3lock -n"
 rcfile=.xlockrc
 
 lock_with_xlockrc() {
@@ -9,7 +8,7 @@ lock_with_xlockrc() {
 }
 
 lock_with_default() {
-	sudo -u "$1" DISPLAY="$2" $defaultlocker
+	sudo -u "$1" DISPLAY="$2" XSECURELOCK_SAVER=saver_xscreensaver /usr/bin/xsecurelock
 }
 
 get_user_display() {
