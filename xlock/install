@@ -11,3 +11,5 @@ cp xlock /usr/bin/
 cp xlock.service /lib/systemd/system/
 systemctl daemon-reload
 systemctl enable xlock.service
+
+ln -s "$(pwd)/xlockrc" ~/.xlockrc
