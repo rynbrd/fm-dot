@@ -32,3 +32,5 @@ stty start ""
 stty stop ""
 
 export PATH
+
+[[ $TERM == "screen" ]] || exec tmux new-session
