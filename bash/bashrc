@@ -23,7 +23,7 @@ for include in $(ls "$DOT/bash/include"); do
 	. "$DOT/bash/include/$include"
 done
 
-[[ -f ~/Work/.bashrc ]] && source ~/Work/.bashrc
+[[ -f ~/.work/bashrc ]] && source ~/.work/bashrc
 
 set -o vi
 bind -m vi-insert "\C-l":clear-screen
