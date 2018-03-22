@@ -1,15 +1,4 @@
 #!/bin/bash
-if [[ "$(whoami)" != "root" ]]; then
-	echo "to install xlock run (with sudo):" >&2
-	echo "$ sudo .dot/xlock/install" >&2
-	exit 1
-fi
-
-cd "$(dirname "$0")"
-
-cp xlock /usr/bin/
-cp xlock.service /lib/systemd/system/
-systemctl daemon-reload
-systemctl enable xlock.service
-
-ln -s "$(pwd)/xlockrc" ~/.xlockrc
+MODPATH=$(cd "$(dirname "$0")"; pwd)
+ln -s "${MODPATH}/xlockrc" ~/.xlockrc
+echo "be sure to run \`sudo $MODPATH/install.system\` to lock on sleep"
