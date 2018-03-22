@@ -61,6 +61,6 @@ set encoding=utf-8
 set laststatus=2
 
 " source work settings
-if filereadable(".work/vimrc")
+if filereadable(expand("~/.work/vimrc"))
     source ~/.work/vimrc
 endif
