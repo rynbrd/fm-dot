@@ -7,7 +7,7 @@ font xft:Fantasque Sans Mono 11
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec /usr/bin/urxvt
+bindsym $mod+Return exec /usr/bin/urxvtc
 
 # kill focused window
 bindsym $mod+Shift+q kill

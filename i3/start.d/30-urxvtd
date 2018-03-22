@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/urxvtd -q -o -f
