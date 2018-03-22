@@ -4,18 +4,20 @@ match_input() {
 	xinput list --name-only | egrep -q "$1"
 }
 
-cfg_keyboard() {
+cfg_xsetmap() {
 	local map=standard
 	if match_input "Apple"; then
 		map=apple
 	fi
-	echo "set keyboard map to $map"
 	~/.dot/bin/xsetmap $map
 }
 
-cfg_mouse() {
-	xinput set-prop "PS/2 Generic Mouse" "Device Accel Constant Deceleration" 0.5
+cfg_xinput() {
+	[[ -e ~/.xinput ]] || return 0
+	while read -r line; do
+		eval "xinput $line"
+	done < ~/.xinput
 }
 
-cfg_keyboard
-cfg_mouse
+cfg_xsetmap
+cfg_xinput
