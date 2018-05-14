@@ -1,0 +1,3 @@
+#!/bin/sh
+xset s 180 120
+xss-lock -- "$HOME/.i3/bin/xlock" &
