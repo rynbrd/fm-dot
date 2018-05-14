@@ -33,4 +33,5 @@ stty stop ""
 
 export PATH
 
-[[ $TERM == "screen" ]] || exec tmux new-session
+alias cd.='cd `pwd -P`'
+alias rebash="exec bash"
