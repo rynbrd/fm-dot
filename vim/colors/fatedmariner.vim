@@ -13,10 +13,10 @@ hi Directory    term=bold ctermfg=blue
 hi ErrorMsg     term=standout ctermfg=white ctermbg=red
 hi NonText      ctermfg=233 ctermbg=233
 hi SpecialKey   term=bold ctermfg=234
-hi LineNr       term=underline ctermfg=darkgray ctermbg=233
-hi CursorLineNr term=underline ctermfg=brown ctermbg=233
-hi CursorLine   cterm=none ctermbg=233 
-hi CursorColumn cterm=none ctermbg=233 
+hi LineNr       term=underline cterm=none ctermfg=darkgray ctermbg=233
+hi CursorLineNr term=underline cterm=none ctermfg=brown ctermbg=233
+hi CursorLine   cterm=none ctermbg=233
+hi CursorColumn cterm=none ctermbg=233
 hi IncSearch    term=reverse cterm=reverse
 hi Search       term=reverse ctermfg=black ctermbg=yellow
 hi Visual       term=bold,reverse cterm=bold,reverse ctermfg=gray ctermbg=black
