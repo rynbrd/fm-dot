@@ -25,6 +25,11 @@ done
 
 [[ -f ~/.work/bashrc ]] && source ~/.work/bashrc
 
+if [[ cat /proc/version | grep -q Microsoft ]]; then
+	/usr/bin/keychain --nogui $HOME/.ssh/id_rsa
+	. $HOME/.keychain/$HOSTNAME-sh
+fi
+
 set -o vi
 bind -m vi-insert "\C-l":clear-screen
 
