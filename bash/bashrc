@@ -25,7 +25,7 @@ done
 
 [[ -f ~/.work/bashrc ]] && source ~/.work/bashrc
 
-if [[ cat /proc/version | grep -q Microsoft ]]; then
+if grep -q Microsoft /proc/version; then
 	/usr/bin/keychain --nogui $HOME/.ssh/id_rsa
 	. $HOME/.keychain/$HOSTNAME-sh
 fi
