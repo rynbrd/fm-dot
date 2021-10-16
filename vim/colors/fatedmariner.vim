@@ -46,7 +46,7 @@ hi GitGutterChangeDelete guifg=#bbbb00 guibg=NONE ctermfg=3 ctermbg=233
 
 " syntax highlight colors
 hi Comment      term=bold ctermfg=darkcyan
-hi PreProc      term=underline ctermfg=darkblue
+hi PreProc      term=underline ctermfg=blue
 hi Constant     term=underline ctermfg=darkred
 hi Type         term=underline ctermfg=darkgreen
 hi Statement    term=bold ctermfg=darkyellow
