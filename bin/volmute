@@ -1,6 +1,6 @@
 #!/bin/bash -u
 SINK=$(pactl info | grep 'Default Sink' | cut -d' ' -f3)
-MUTE=$(pacmd list-sinks | grep -A 25 "$SINK" | grep mute | cut -d' ' -f 2)
+MUTE=$(pactl get-sink-mute "$SINK" | cut -d' ' -f2)
 if [ "$MUTE" == "no" ]; then
 	pactl set-sink-mute "$SINK" 1
 else
