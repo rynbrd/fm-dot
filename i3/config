@@ -151,11 +151,13 @@ bindsym $mod+r mode "resize"
 bar {
         status_command ~/.i3/bin/i3blocks -c ~/.i3/i3blocks.conf
         position top
-        output DP-1
+        output DP-3-3
 }
 
 # volume controls
+bindsym XF86Display exec ~/.i3/bin/configure-desktop
 bindsym XF86AudioMute exec ~/.i3/bin/volmute
+bindsym XF86AudioMicMute exec ~/.i3/bin/micmute
 bindsym XF86AudioLowerVolume exec ~/.i3/bin/voldown
 bindsym XF86AudioRaiseVolume exec ~/.i3/bin/volup
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
