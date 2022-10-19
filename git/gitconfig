@@ -9,3 +9,5 @@
     pr = pull --rebase
 [diff]
     tool = vimdiff
+[advice]
+	detachedHead = false
