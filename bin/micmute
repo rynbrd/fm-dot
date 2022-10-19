@@ -1,0 +1,9 @@
+#!/bin/bash -u
+SOURCE=$(pactl info | grep 'Default Source' | cut -d' ' -f3)
+MUTE=$(pactl get-source-mute "$SOURCE" | cut -d' ' -f2)
+if [ "$MUTE" == "no" ]; then
+	pactl set-source-mute "$SOURCE" 1
+else
+	pactl set-source-mute "$SOURCE" 0
+fi
+$(dirname $0)/i3blocks-signal 10
