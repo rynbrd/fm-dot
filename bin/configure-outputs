@@ -3,9 +3,6 @@
 # furthest to the left. The first external display is set as primary output
 # when available. Sets DPI based on resolution of the primary output.
 
-hidpi_dpi=134
-normal_dpi=96
-
 hidpi_threshold=200
 
 get_connected_outputs() {
@@ -18,6 +15,10 @@ get_disconnected_outputs() {
 
 get_internal_output() {
 	get_connected_outputs | egrep "^(eDP|LVDS)" | head -n1
+}
+
+get_external_outputs() {
+	get_connected_outputs | egrep "^(DP(-?[0-9])?-?[0-9]|HDMI-?[0-9])$"
 }
 
 get_primary_output() {
@@ -37,51 +38,28 @@ is_output_hidpi() {
 }
 
 is_external_output() {
-	echo "$1" | egrep -q "^(DP([0-9])?-?[0-9]|HDMI-?[0-9])$"
+	echo "$1" | egrep -q "^(DP(-?[0-9])?-?[0-9]|HDMI-?[0-9])$"
 }
 
 cfg_outputs() {
-	local primary=
-	local left=$(get_internal_output)
-	local outputs=$(get_connected_outputs)
-	if [ $(echo "$outputs" | wc -l) -eq 1 ]; then
-		echo "enabling output $outputs as primary"
-		xrandr --output "$outputs" --auto --primary
+	local internal=$(get_internal_output)
+	local external=$(get_external_outputs)
+	local cmd="xrandr --dpi 196"
+	if [[ -z $external ]]; then
+		cmd="$cmd --output $internal --auto --primary"
 	else
-		if [ -n "$left" ]; then
-			echo "enabling internal output $left"
-			xrandr --output "$left" --auto
-		fi
-		for output in $(get_connected_outputs); do
-			if is_external_output "$output"; then
-				if [ -z $primary ]; then
-					echo "enabling external output $output as primary"
-					xrandr --output "$output" --auto --right-of "$left" --primary
-					primary=$output
-				else
-					echo "enabling external output $output"
-					xrandr --output "$output" --auto --right-of "$left"
-				fi
-				left=$output
+		cmd="$cmd --output $internal --auto"
+		for output in $external; do
+			cmd="$cmd --output $output --auto"
+			if echo $external | grep -q ^$output; then
+				cmd="$cmd --primary"
+			fi
+			if ! is_output_hidpi $output; then
+				cmd="$cmd --scale 2x2"
 			fi
 		done
 	fi
-	for output in $(get_disconnected_outputs); do
-		echo "disabling output $output"
-		xrandr --output "$output" --off
-	done
-}
-
-cfg_scaling() {
-	local primary=$(get_primary_output)
-	local dpi=
-	if is_output_hidpi $primary; then
-		dpi=$hidpi_dpi
-	else
-		dpi=$normal_dpi
-	fi
-	echo "scaling $primary to $dpi"
-	xrandr --dpi "$dpi"
+	$cmd
 }
 
 cfg_brightness() {
@@ -92,5 +70,4 @@ cfg_brightness() {
 }
 
 cfg_outputs
-cfg_scaling
 cfg_brightness
