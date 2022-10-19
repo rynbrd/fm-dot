@@ -1,2 +1,11 @@
 #!/bin/sh
-feh --no-fehbg --image-bg black --bg-fill ~/.dot/background.png
+if [[ -f ~/.dot/background.png ]]; then
+	BG=background.png
+elif [[ -f ~/.dot/background.jpg ]]; then
+	BG=background.jpg
+fi
+if [[ -n $BG ]]; then
+	feh --no-fehbg --image-bg black --bg-fill "$BG"
+else
+	exit 1
+fi
