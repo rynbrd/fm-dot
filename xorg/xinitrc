@@ -4,6 +4,7 @@ source "${HOME}/.bashrc"
 eval `ssh-agent`
 eval `gpg-agent --daemon`
 pulseaudio -D
+xrdb -merge ~/.Xresources
 exec /usr/bin/i3
 
 # disable mouse acceleration and increase pointer speed

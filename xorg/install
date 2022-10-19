@@ -2,4 +2,4 @@
 # Install local xorg configuration.
 MODPATH=$(cd "$(dirname "$0")"; pwd)
 ln -sf "${MODPATH}/Xmodmap.standard" ~/.xmodmap
-ln -sf "${MODPATH}/Xdefaults" ~/.Xdefaults
+ln -sf "${MODPATH}/Xresources" ~/.Xresources

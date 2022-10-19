@@ -4,6 +4,7 @@ Xft.hinting: true
 Xft.autohint: true
 Xft.hintstyle: hintlight
 Xft.rgba: rgb
+Xft.dpi: 196
 
 !  >> Configure Behavior <<
 URxvt*saveLines: 100000
