@@ -1,4 +1,5 @@
 #!/bin/bash
 alias grep="grep -s --color"
 alias egrep="egrep --color"
+alias diff="diff --color"
 alias ls="ls --color"
