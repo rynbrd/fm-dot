@@ -1,0 +1,4 @@
+eval `ssh-agent`
+eval `gpg-agent --daemon`
+pulseaudio -D
+xrdb -merge ~/.Xresources
