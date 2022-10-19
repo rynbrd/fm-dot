@@ -42,7 +42,10 @@ bindsym $mod+f fullscreen
 # change window border style
 new_window pixel 1
 new_float pixel 1
-client.focused #2b5d33 #2b5d33 #ffffff #2e9ef4
+client.focused          #666666 #798286 #000000 #333333
+client.focused_inactive #333333 #3d4143 #ffffff #484e50
+client.unfocused        #333333 #222222 #888888 #292d2e
+client.urgent           #2f343a #900000 #ffffff #900000
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
