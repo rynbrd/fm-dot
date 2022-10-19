@@ -1,8 +1,8 @@
 #!/bin/sh
 if [[ -f ~/.dot/background.png ]]; then
-	BG=background.png
+	BG=~/.dot/background.png
 elif [[ -f ~/.dot/background.jpg ]]; then
-	BG=background.jpg
+	BG=~/.dot/background.jpg
 fi
 if [[ -n $BG ]]; then
 	feh --no-fehbg --image-bg black --bg-fill "$BG"
