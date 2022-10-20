@@ -160,8 +160,8 @@ bindsym XF86AudioMute exec ~/.i3/bin/volmute
 bindsym XF86AudioMicMute exec ~/.i3/bin/micmute
 bindsym XF86AudioLowerVolume exec ~/.i3/bin/voldown
 bindsym XF86AudioRaiseVolume exec ~/.i3/bin/volup
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp exec ~/.i3/bin/xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec ~/.i3/bin/xbacklight -dec 10
 
 # run startup scripts
 exec ~/.i3/bin/rundir ~/.i3/start.d &> ~/.i3/start.log
