@@ -7,11 +7,6 @@ filetype plugin indent on
 " airline
 let g:airline_powerline_fonts = 1
 
-" command-t
-noremap <C-f> :CommandTFlush<CR>
-let g:CommandTFileScanner = "find"
-let g:CommandTTraverseSCM = "pwd"
-
 " tab and indent
 set tabstop=4
 set shiftwidth=4
