@@ -44,6 +44,7 @@ is_external_output() {
 cfg_outputs() {
 	local internal=$(get_internal_output)
 	local external=$(get_external_outputs)
+	local last=$internal
 	local cmd="xrandr --dpi 196"
 	if [[ -z $external ]]; then
 		cmd="$cmd --output $internal --auto --primary"
@@ -57,6 +58,8 @@ cfg_outputs() {
 			if ! is_output_hidpi $output; then
 				cmd="$cmd --scale 2x2"
 			fi
+			cmd="$cmd --right-of $last"
+			last=$output
 		done
 	fi
 	$cmd
