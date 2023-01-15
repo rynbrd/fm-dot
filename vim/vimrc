@@ -12,6 +12,7 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+set backspace=indent,eol,start
 let g:leave_my_textwidth_alone = 1
 
 " honor modeline
@@ -19,6 +20,7 @@ set modeline
 set modelines=2
 
 " line numbering and scrolling
+set ruler
 function! ToggleNumbers()
     if (&relativenumber == 1)
         set number
@@ -49,6 +51,10 @@ map <Right> <Nop>
 set t_Co=256
 colorscheme fatedmariner
 syntax on
+
+" search settings
+set hlsearch
+set incsearch
 
 " other settings
 set nobackup
