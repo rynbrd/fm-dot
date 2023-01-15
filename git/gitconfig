@@ -11,3 +11,5 @@
     tool = vimdiff
 [advice]
 	detachedHead = false
+[init]
+	defaultBranch = master
