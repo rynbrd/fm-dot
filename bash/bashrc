@@ -12,7 +12,7 @@ esac
 umask 0027
 
 DOT="${HOME}/.dot"
-PATH="${DOT}/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
+PATH="${DOT}/bin:~/bin:/~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
 PS1='\[\033[01;32m\]\w \[\033[01;34m\]\$\[\033[00m\] '
 
 # reset terminal size on window change
