@@ -7,13 +7,14 @@ filetype plugin indent on
 " airline
 let g:airline_powerline_fonts = 1
 
-" tab and indent
+" tab, indent, and backspace
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set backspace=indent,eol,start
 let g:leave_my_textwidth_alone = 1
+set backspace=indent,eol,start
 
 " honor modeline
 set modeline
