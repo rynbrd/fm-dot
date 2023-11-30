@@ -1,4 +1,4 @@
 #!/bin/bash
 MODPATH=$(cd "$(dirname "$0")"; pwd)
-ln -s "${MODPATH}/xlockrc" ~/.xlockrc
+ln -snf "${MODPATH}/xlockrc" ~/.xlockrc
 echo "be sure to run \`sudo $MODPATH/install.system\` to lock on sleep"

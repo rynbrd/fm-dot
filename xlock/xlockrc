@@ -1,4 +1,4 @@
 #!/bin/sh
 #exec scrot -e 'convert $f -blur 8x8 $f && i3lock -u -i $f && rm $f'
 #env XSECURELOCK_SAVER=saver_xscreensaver /usr/bin/xsecurelock
-exec /usr/bin/i3lock -n -i "${HOME}/.dot/background.png"
+exec /usr/bin/i3lock -n -t -i "${HOME}/.dot/background.png"
