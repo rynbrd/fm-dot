@@ -42,3 +42,4 @@ export PATH
 
 alias cd.='cd `pwd -P`'
 alias rebash="exec bash"
+alias nv=nvim
