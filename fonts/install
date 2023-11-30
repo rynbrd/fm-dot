@@ -1,0 +1,15 @@
+#!/bin/bash
+# Install local fonts.
+MODPATH=$(cd "$(dirname "$0")"; pwd)
+
+ln -snf "$MODPATH" ~/.local/share/fonts
+
+cd "$MODPATH"
+rm *.ttf
+mkdir tmp
+(cd tmp
+for zip in $(ls ../*.zip); do
+	unzip -o "$zip"
+done)
+mv tmp/*.ttf .
+rm -rf tmp
