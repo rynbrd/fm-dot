@@ -6,6 +6,9 @@ eval `gpg-agent --daemon`
 xrdb -merge ~/.Xresources
 exec /usr/bin/i3
 
-# disable mouse acceleration and increase pointer speed
+# disable Logitech mouse acceleration and increase pointer speed
 xinput set-prop 'pointer:Logitech MX Master 3000' 'libinput Accel Profile Enabled' 0, 1
 xinput set-prop 'pointer:Logitech MX Master 3000' 'libinput Accel Speed' 1
+
+# decrease Lenovo trackpad pointer speed
+xinput set-prop 'pointer:SYNA8008:00 06CB:CE58 Touchpad' 'libinput Accel Speed' 0.45
