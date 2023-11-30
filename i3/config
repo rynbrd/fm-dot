@@ -1,7 +1,7 @@
 set $mod Mod4
 
 # font for bar and window titles
-font xft:Fantasque Sans Mono 11
+font xft:Fantasque Sans Mono 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
