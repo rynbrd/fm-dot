@@ -1,6 +1,22 @@
 #!/bin/bash
 # Install local xorg configuration.
 MODPATH=$(cd "$(dirname "$0")"; pwd)
-ln -sf "${MODPATH}/../xmodmap/standard" ~/.xmodmap
-ln -sf "${MODPATH}/Xresources" ~/.Xresources
-ln -sf "${MODPATH}/xsessionrc" ~/.xsessionrc
+SHARE="$MODPATH/.share"
+
+ln -snf "$MODPATH/../xmodmap/standard" ~/.xmodmap
+ln -snf "$MODPATH/Xresources" ~/.Xresources
+ln -snf "$MODPATH/xsessionrc" ~/.xsessionrc
+
+mkdir -p "$SHARE/fonts"
+ln -snf "$SHARE/fonts" ~/.local/share/fonts
+
+# Extract fonts.
+cd "$MODPATH/fonts"
+rm *.ttf
+mkdir tmp
+(cd tmp
+for zip in $(ls ../*.zip); do
+	unzip -o "$zip"
+done)
+mv tmp/*.ttf "$SHARE/fonts/"
+rm -rf tmp
