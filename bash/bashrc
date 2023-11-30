@@ -7,6 +7,8 @@ case $- in
 	;;
 esac
 
+clear
+
 [[ -f /etc/profile ]] && source /etc/profile
 
 umask 0027
