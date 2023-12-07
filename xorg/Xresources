@@ -38,8 +38,8 @@ URxvt.keysym.C-Home:  \033[1;5H
 URxvt*termName: xterm-256color
 URxvt*background: #1e1e1e
 URxvt*foreground: #eeeeee
-URxvt*font:     xft:Fantasque Sans Mono:style=Regular:size=11:antialias=true
-URxvt*boldFont: xft:Fantasque Sans Mono:style=Regular:size=11:antialias=true:bold
+URxvt*font:     xft:FantasqueSansM Nerd Font Mono:style=Regular:size=11:antialias=true
+URxvt*boldFont: xft:FantasqueSansM Nerd Font Mono:style=Regular:size=11:antialias=true:bold
 
 ! black
 URxvt*color0  : #1e1e1e
