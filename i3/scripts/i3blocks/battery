@@ -29,7 +29,7 @@ $acpi = <ACPI>;
 close(ACPI);
 
 # fail on unexpected output
-if ($acpi !~ /: (\w+), (\d+)%/) {
+if ($acpi !~ /: ([\w ]+), (\d+)%/) {
 	die "$acpi\n";
 }
 
@@ -42,6 +42,8 @@ if ($status eq 'Discharging') {
 	$full_text .= ' DIS';
 } elsif ($status eq 'Charging') {
 	$full_text .= ' CHR';
+} elsif ($status eq 'Not charging') {
+    $full_text .= ' NCH';
 }
 
 # print text
@@ -60,6 +62,12 @@ if ($status eq 'Discharging') {
 	} else {
 		print "#A8FF00\n";
 	}
+
+	if ($percent < 5) {
+		exit(33);
+	}
+} elsif ($status eq 'Not charging') {
+	print "#FF0000\n";
 
 	if ($percent < 5) {
 		exit(33);
