@@ -1,81 +1,78 @@
-#!/usr/bin/perl
-#
-# Copyright 2014 Pierre Mavro <deimos@deimos.fr>
-# Copyright 2014 Vivien Didelot <vivien@didelot.org>
-#
-# Licensed under the terms of the GNU GPL v3, or any later version.
-#
-# This script is meant to use with i3blocks. It parses the output of the "acpi"
-# command (often provided by a package of the same name) to read the status of
-# the battery, and eventually its remaining time (to full charge or discharge).
-#
-# The color will gradually change for a percentage below 85%, and the urgency
-# (exit code 33) is set if there is less that 5% remaining.
+#!/bin/bash
 
-use strict;
-use warnings;
-use utf8;
 
-my $acpi;
-my $status;
-my $percent;
-my $full_text;
-my $short_text;
-my $bat_number = $ENV{BLOCK_INSTANCE} || 0;
-
-# read the first line of the "acpi" command output
-open (ACPI, "acpi -b | grep 'Battery $bat_number' |") or die;
-$acpi = <ACPI>;
-close(ACPI);
-
-# fail on unexpected output
-if ($acpi !~ /: ([\w ]+), (\d+)%/) {
-	die "$acpi\n";
+battery_number() {
+	local bats=$(acpi -b | sed -r '/rate information unavailable/d; s/^Battery ([0-9]+):.*$/\1/')
+	local bat=$(echo $bats | egrep "^${1}$")
+	if [[ -z "$1" ]] || [[ -z "$bat" ]]; then
+		echo $bats | sed '1q'
+	else
+		echo $bat
+	fi
 }
 
-$status = $1;
-$percent = $2;
-$full_text = "$percent%";
-$short_text = $full_text;
-
-if ($status eq 'Discharging') {
-	$full_text .= ' DIS';
-} elsif ($status eq 'Charging') {
-	$full_text .= ' CHR';
-} elsif ($status eq 'Not charging') {
-    $full_text .= ' NCH';
+battery_status() {
+	acpi -b | sed -r "/rate information unavailable/d; s/^Battery $1: (.*), ([0-9]+)%/\1 \2/; q"
 }
 
-# print text
-print "$full_text\n";
-print "$short_text\n";
+BATTERY=$(battery_number $BLOCK_INSTANCE)
+if [[ -z "$BATTERY" ]]; then
+	exit 0
+fi
 
-# consider color and urgent flag only on discharge
-if ($status eq 'Discharging') {
+FULL_STATUS=$(battery_status $BATTERY)
+if [[ -z "$FULL_STATUS" ]]; then
+	exit 0
+fi
 
-	if ($percent < 20) {
-		print "#FF0000\n";
-	} elsif ($percent < 40) {
-		print "#FFAE00\n";
-	} elsif ($percent < 60) {
-		print "#FFF600\n";
-	} else {
-		print "#A8FF00\n";
-	}
+STATUS=${FULL_STATUS% *}
+LEVEL=${FULL_STATUS#* }
 
-	if ($percent < 5) {
-		exit(33);
-	}
-} elsif ($status eq 'Not charging') {
-	print "#FF0000\n";
+SHORT_TEXT="${LEVEL}%"
+case $STATUS in
+	"Discharging")
+		FULL_TEXT+="$SHORT_TEXT DIS"
+		;;
+	"Charging")
+		FULL_TEXT+="$SHORT_TEXT CHR"
+		;;
+	"Not Charging")
+		FULL_TEXT+="$SHORT_TEXT NCH"
+		;;
+	*)
+		FULL_TEXT+="$SHORT_TEXT"
+		;;
+esac
 
-	if ($percent < 5) {
-		exit(33);
-	}
-} elsif ($status eq 'Charging') {
-	print "#A8FF00\n";
-} else {
-	print "#FFFFFF\n";
-}
+echo $FULL_TEXT
+echo $SHORT_TEXT
 
-exit(0);
+case $STATUS in
+	"Discharging")
+		if [[ $LEVEL -lt 20 ]]; then
+			echo "#FF0000"
+		elif [[ $LEVEL -lt 40 ]]; then
+			echo "#FFAE00"
+		elif [[ $LEVEL -lt 60 ]]; then
+			echo "#FFF600"
+		else
+			echo "#A8FF00"
+		fi
+
+		if [[ $LEVEL -lt 5 ]]; then
+			exit 33
+		fi
+		;;
+	"Charging")
+		echo "#A8FF00"
+		;;
+	"Not Charging")
+		echo "#FF0000"
+		if [[ $LEVEL -lt 5 ]]; then
+			exit 33
+		fi
+		;;
+	*)
+		echo "#FFFFFF"
+		;;
+esac
