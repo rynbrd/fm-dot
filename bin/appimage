@@ -1,0 +1,31 @@
+#!/bin/bash
+shopt -s lastpipe
+
+error() {
+	echo "$@" >&2
+}
+
+APP=$(basename "$0")
+
+find_image() {
+	sed 's/:/\n/g' <<< "$APPIMAGES" | while read path; do
+		[[ "$path" == "" ]] && continue
+		find "$path" -maxdepth 1 -type f 2> /dev/null | sort -r -g | while read image; do
+			[[ "$1" == "$(basename "$image" | sed -r 's/^([^-.]*).*\.AppImage$/\1/;s/(.*)/\L\1/')" ]] && echo "$image" && return 0
+		done
+	done
+	return 1
+}
+
+BIN=$(find_image $APP)
+if [[ $? -ne 0 ]]; then
+	echo "error: AppImage $APP not found" >&2
+	exit 1
+fi
+
+if [[ ! -x "$BIN" ]]; then
+	echo "warning: $BIN not executable, setting executable bit" >&2
+	chmod +x "$BIN" || exit 1
+fi
+
+exec "$BIN" "$@"

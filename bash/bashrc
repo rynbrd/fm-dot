@@ -16,6 +16,7 @@ umask 0027
 DOT="${HOME}/.dot"
 PATH="${DOT}/bin:~/bin:~/Sandbox/bin:/sbin:/usr/sbin:${PATH}"
 PS1='\[\033[01;32m\]\w \[\033[01;34m\]\$\[\033[00m\] '
+APPIMAGES="${DOT}/AppImages"
 
 # reset terminal size on window change
 shopt -s checkwinsize
