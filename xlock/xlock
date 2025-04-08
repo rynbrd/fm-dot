@@ -11,14 +11,9 @@ lock_with_default() {
 	sudo -u "$1" DISPLAY="$2" XSECURELOCK_SAVER=saver_xscreensaver /usr/bin/xsecurelock
 }
 
-get_user_display() {
-	who | egrep "[^ ]+ (tty.*)?\\(:[0-9]+\\)\$" | sed -r -e 's/^([^ ]+).*\((:[0-9]+)\)$/\1 \2/g' | head -n1
-}
-
 lock_user_display() {
-	local userdisplay=$(get_user_display)
-	local user="${userdisplay% *}"
-	local display="${userdisplay#* }"
+	local user="$USER"
+	local display="$DISPLAY"
 	echo "lock USER=$user DISPLAY=$display"
 
 	lock_with_xlockrc "$user" "$display" || \
